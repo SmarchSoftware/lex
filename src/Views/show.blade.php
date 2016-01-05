@@ -1,6 +1,6 @@
-@extends('layouts.master')
+@extends( config('lex::layout') )
 
-@section('content')
+@section( config('lex::section') )
 
     <h1>Currency</h1>
     <div class="table-responsive">

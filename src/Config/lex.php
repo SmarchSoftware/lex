@@ -33,6 +33,7 @@ return [
     | use that one if one is found, othewise it will use the default.
     |
     */   
-   'default_theme' => 'spacelab',
+   'layout' => 'watchtower::layouts.master',
+   'secton' => 'content',
 
 ];

@@ -5,7 +5,7 @@ namespace Smarch\Lex\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Currency;
+use Smarch\Lex\Models\Currency;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -20,7 +20,7 @@ class CurrencyController extends Controller
 	public function index()
 	{
 		$currencies = Currency::latest()->get();
-		return view('currency.index', compact('currencies'));
+		return view('lex::index', compact('currencies'));
 	}
 
 	/**
