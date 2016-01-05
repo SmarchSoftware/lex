@@ -50,12 +50,6 @@ class LexServiceProvider extends ServiceProvider
             require __DIR__.'/routes.php';
         }
 
-        // View Composer
-        $this->app['view']->composer('*',function($view){
-           $view->theme = isset( Auth::user()->theme ) ? Auth::user()->theme : $this->app['config']->get('lex.default_theme');
-           $view->title = $this->app['config']->get('lex.site_title');
-        });
-
         // Register it
         $this->app->bind('lex', function() {
              return new Lex;

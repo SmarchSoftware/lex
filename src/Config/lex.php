@@ -12,18 +12,6 @@ return [
     | any at all) required to access all the different sections.
     |
     |--------------------------------------------------------------------------
-    | Title for this user admin section
-    |--------------------------------------------------------------------------
-    |
-    | The name of your site (or whatever) you want displayed on the header.
-    |
-    */
-	'site_title' => 'Lex Currencies',
-
-
-
-    /*
-    |--------------------------------------------------------------------------
     | Default bootstrap theme
     |--------------------------------------------------------------------------
     |
