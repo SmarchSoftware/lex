@@ -1,0 +1,24 @@
+{
+    "name": "smarch/lex",
+    "description": "A game-currency management package.",
+    "type": "package",
+    "homepage": "https://github.com/SmarchSoftware/lex",
+    "keywords": ["game currency", "fake money", "watchtower", "laravel"],
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "5.1.*",
+        "laravelcollective/html": "~5.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Smarch Software",
+            "email": "packages@smarchsoft.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Smarch\\Lex\\": "src/"
+        }
+    }
+}
