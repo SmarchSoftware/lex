@@ -22,7 +22,6 @@ class CreateCurrenciesTable extends Migration
                 $table->tinyInteger('sellable');
                 $table->tinyInteger('rewardable');
                 $table->tinyInteger('discoverable');
-                $table->tinyInteger('itemize');
                 $table->tinyInteger('available');
                 $table->string('notes');
                 $table->string('type');
