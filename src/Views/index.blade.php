@@ -2,7 +2,7 @@
 
 @section( config('lex.section') )
 
-    <h1><i class="fa fa-money fa-fw"></i> {{ config('lex.title') }}
+    <h1><i class="fa fa-money fa-fw"></i> {{ config('lex.title', 'Lex Currency') }}
     <div class="btn-group pull-right" role="group" aria-label="..."> 
       
         <a href="{{ route('lex.create') }}">

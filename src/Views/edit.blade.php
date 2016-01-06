@@ -2,16 +2,23 @@
 
 @section( config('lex.section') )
 
-    <h1>{{ ( ($show == '0') ? 'Edit' : 'Viewing' ) }} ' Currency'</h1>
+    <h1>{{ ( ($show == '0') ? 'Edit' : 'Viewing' ) }}  {{ $resource->name }}</h1>
     <hr/>
 
     {!! Form::model($resource, ['method' => 'PATCH', 'route' => [ 'lex.update', $resource->id ], 'class' => 'form-horizontal']) !!}
-    {!! Form::hidden('id', $resource->id) !!}>
+    {!! Form::hidden('id', $resource->id) !!}
 
     <div class="form-group">
         {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             {!! Form::text('name', null, ['class' => 'form-control']) !!}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {!! Form::label('slug', 'Slug: ', ['class' => 'col-sm-3 control-label']) !!}
+        <div class="col-sm-6">
+            {!! Form::text('slug', null, ['class' => 'form-control']) !!}
         </div>
     </div>
 
@@ -165,7 +172,12 @@
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-3">
-            {!! Form::submit('Create', ['class' => 'btn btn-primary form-control']) !!}
+           @if ($show == '0')
+            {!! Form::submit('Edit', ['class' => 'btn btn-primary form-control']) !!}
+           @else
+                <i class="fa fa-pencil"></i> 
+                <a href="{{ route('lex.edit', $resource->id) }}" title="Edit '{{ $resource->name }}'">Edit '{{ $resource->name }}'</a>
+           @endif
         </div>    
     </div>
     {!! Form::close() !!}

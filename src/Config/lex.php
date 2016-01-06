@@ -40,7 +40,7 @@ return [
    'views' => [
         'index'     => 'lex::index',            
         'create'    => 'lex::create',
-        'show'      => 'lex::show',
+        'show'      => 'lex::edit',
         'edit'      => 'lex::edit'       
     ],
 

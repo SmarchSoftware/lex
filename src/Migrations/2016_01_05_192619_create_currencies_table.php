@@ -12,23 +12,22 @@ class CreateCurrenciesTable extends Migration
      */
     public function up()
     {
-        
-            Schema::create('currencies', function(Blueprint $table) {
-                $table->increments('id');
-                $table->string('name');
-                $table->bigInteger('base_value');
-                $table->tinyInteger('convertible');
-                $table->tinyInteger('tradeable');
-                $table->tinyInteger('sellable');
-                $table->tinyInteger('rewardable');
-                $table->tinyInteger('discoverable');
-                $table->tinyInteger('available');
-                $table->string('notes');
-                $table->string('type');
+        Schema::create('currencies', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('slug');
+            $table->bigInteger('base_value');
+            $table->tinyInteger('convertible');
+            $table->tinyInteger('tradeable');
+            $table->tinyInteger('sellable');
+            $table->tinyInteger('rewardable');
+            $table->tinyInteger('discoverable');
+            $table->tinyInteger('available');
+            $table->string('notes');
+            $table->string('type');
 
-                $table->timestamps();
-            });
-            
+            $table->timestamps();
+        });            
     }
 
     /**

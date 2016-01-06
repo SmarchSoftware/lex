@@ -64,7 +64,7 @@ class CurrencyController extends Controller
 	{
 		$resource = Currency::findOrFail($id);
 		$show = "1";
-		return view('lex::show', compact('resource', 'show'));
+		return view('lex::edit', compact('resource', 'show'));
 	}
 
 	/**
