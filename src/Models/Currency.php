@@ -19,6 +19,6 @@ class Currency extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'image', 'base_value', 'convertable', 'tradeable', 'sellable', 'rewardable', 'discoverable', 'itemize', 'notes', 'available', 'type'];
+    protected $fillable = ['name', 'image', 'base_value', 'convertible', 'tradeable', 'sellable', 'rewardable', 'discoverable', 'itemize', 'notes', 'available', 'type'];
 
 }

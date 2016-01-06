@@ -16,17 +16,16 @@ class CreateCurrenciesTable extends Migration
             Schema::create('currencies', function(Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
-$table->string('image');
-$table->bigInteger('base_value');
-$table->tinyInteger('convertable');
-$table->tinyInteger('tradeable');
-$table->tinyInteger('sellable');
-$table->tinyInteger('rewardable');
-$table->tinyInteger('discoverable');
-$table->tinyInteger('itemize');
-$table->string('notes');
-$table->tinyInteger('available');
-$table->string('type');
+                $table->bigInteger('base_value');
+                $table->tinyInteger('convertible');
+                $table->tinyInteger('tradeable');
+                $table->tinyInteger('sellable');
+                $table->tinyInteger('rewardable');
+                $table->tinyInteger('discoverable');
+                $table->tinyInteger('itemize');
+                $table->tinyInteger('available');
+                $table->string('notes');
+                $table->string('type');
 
                 $table->timestamps();
             });

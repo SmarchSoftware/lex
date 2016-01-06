@@ -19,7 +19,7 @@ class CurrencyController extends Controller
 	 */
 	public function index()
 	{
-		$currencies = Currency::latest()->get();
+		$currencies = Currency::paginate( config('lex.pagination', 15) );
 		return view('lex::index', compact('currencies'));
 	}
 
@@ -30,7 +30,7 @@ class CurrencyController extends Controller
 	 */
 	public function create()
 	{
-		return view('currency.create');
+		return view('lex::create');
 	}
 
 	/**
@@ -41,8 +41,17 @@ class CurrencyController extends Controller
 	public function store(Request $request)
 	{
 		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
-		Currency::create($request->all());
-		return redirect('currency');
+				
+		$level = "danger";
+		$message = " Currency not created.";
+
+		if ( Currency::create($request->all()) ) {
+			$level = "success";
+			$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency created.";
+		}
+
+		return redirect()->route('lex.index')
+				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
 	}
 
 	/**
@@ -54,7 +63,7 @@ class CurrencyController extends Controller
 	public function show($id)
 	{
 		$currency = Currency::findOrFail($id);
-		return view('currency.show', compact('currency'));
+		return view('lex::show', compact('currency'));
 	}
 
 	/**
@@ -66,7 +75,7 @@ class CurrencyController extends Controller
 	public function edit($id)
 	{
 		$currency = Currency::findOrFail($id);
-		return view('currency.edit', compact('currency'));
+		return view('lex::edit', compact('currency'));
 	}
 
 	/**

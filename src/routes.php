@@ -1,3 +1,3 @@
 <?php
 
-Route::resource('lex/currency', 'Smarch\Lex\Controllers\CurrencyController');
+Route::resource('lex', 'Smarch\Lex\Controllers\CurrencyController');
