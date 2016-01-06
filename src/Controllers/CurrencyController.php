@@ -62,8 +62,9 @@ class CurrencyController extends Controller
 	 */
 	public function show($id)
 	{
-		$currency = Currency::findOrFail($id);
-		return view('lex::show', compact('currency'));
+		$resource = Currency::findOrFail($id);
+		$show = "1";
+		return view('lex::show', compact('resource', 'show'));
 	}
 
 	/**
@@ -74,8 +75,9 @@ class CurrencyController extends Controller
 	 */
 	public function edit($id)
 	{
-		$currency = Currency::findOrFail($id);
-		return view('lex::edit', compact('currency'));
+		$resource = Currency::findOrFail($id);
+		$show = "0";
+		return view('lex::edit', compact('resource', 'show'));
 	}
 
 	/**
@@ -87,9 +89,18 @@ class CurrencyController extends Controller
 	public function update($id, Request $request)
 	{
 		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
-		$currency = Currency::findOrFail($id);
-		$currency->update($request->all());
-		return redirect('currency');
+				
+		$level = "danger";
+		$message = " Currency not edited.";
+
+		$currency = Currency::findOrFail($id);		
+		if ( $currency->update($request->all()) ) {
+			$level = "success";
+			$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency edited.";
+		}
+
+		return redirect()->route('lex.index')
+				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
 	}
 
 	/**
