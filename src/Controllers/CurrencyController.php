@@ -5,9 +5,12 @@ namespace Smarch\Lex\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Smarch\Lex\Models\Currency;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+
+use Smarch\Lex\Models\Currency;
+use Smarch\Lex\Requests\StoreRequest;
+use Smarch\Lex\Requests\UpdateRequest;
 
 class CurrencyController extends Controller
 {
@@ -19,8 +22,13 @@ class CurrencyController extends Controller
 	 */
 	public function index()
 	{
+		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.index') ) ) ) {
+			return view( config('lex.views.unauthorized'), [ 'message' => 'view currency list' ]);
+		}
+
 		$currencies = Currency::paginate( config('lex.pagination', 15) );
-		return view('lex::index', compact('currencies'));
+		return view( config('lex.views.index'), compact('currencies') );
+		
 	}
 
 	/**
@@ -30,6 +38,10 @@ class CurrencyController extends Controller
 	 */
 	public function create()
 	{
+		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.create') ) ) ) {
+			return view( config('lex.views.unauthorized'), [ 'message' => 'create new currency types' ]);
+		}
+
 		return view('lex::create');
 	}
 
@@ -38,14 +50,13 @@ class CurrencyController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
-	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
-				
+	public function store(StoreRequest $request)
+	{				
 		$level = "danger";
-		$message = " Currency not created.";
+		$message = "You are not permitted to create currencies";
 
-		if ( Currency::create($request->all()) ) {
+		if ( config('lex.acl.enable') && ( \Auth::user()->can( config('lex.acl.create') ) ) ) {
+			Currency::create($request->all());
 			$level = "success";
 			$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency created.";
 		}
@@ -62,9 +73,13 @@ class CurrencyController extends Controller
 	 */
 	public function show($id)
 	{
+		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.show') ) ) ) {
+			return view( config('lex.views.unauthorized'), [ 'message' => 'view existing currency types' ]);
+		}
+
 		$resource = Currency::findOrFail($id);
 		$show = "1";
-		return view('lex::edit', compact('resource', 'show'));
+		return view( config('lex.views.edit'), compact('resource', 'show') );
 	}
 
 	/**
@@ -75,9 +90,13 @@ class CurrencyController extends Controller
 	 */
 	public function edit($id)
 	{
+		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.edit') ) ) ) {
+			return view( config('lex.views.unauthorized'), [ 'message' => 'edit existing currency types' ]);
+		}
+
 		$resource = Currency::findOrFail($id);
 		$show = "0";
-		return view('lex::edit', compact('resource', 'show'));
+		return view( config('lex.views.edit'), compact('resource', 'show') );
 	}
 
 	/**
@@ -86,15 +105,14 @@ class CurrencyController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id, Request $request)
-	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
-				
+	public function update($id, UpdateRequest $request)
+	{				
 		$level = "danger";
-		$message = " Currency not edited.";
+		$message = "You are not permitted to edit currencies.";
 
-		$currency = Currency::findOrFail($id);		
-		if ( $currency->update($request->all()) ) {
+		if ( config('lex.acl.enable') && ( \Auth::user()->can( config('lex.acl.edit') ) ) ) {
+			$currency = Currency::findOrFail($id);		
+			$currency->update($request->all());
 			$level = "success";
 			$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency edited.";
 		}
@@ -111,8 +129,17 @@ class CurrencyController extends Controller
 	 */
 	public function destroy($id)
 	{
-		Currency::destroy($id);
-		return redirect('currency');
+		$level = "danger";
+		$message = " You are not permitted to destroy currencies.";
+
+		if ( config('lex.acl.enable') && ( \Auth::user()->can( config('lex.acl.destroy') ) ) ) {
+			Currency::destroy($id);
+			$level = "warning";
+			$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency deleted.";
+		}
+
+		return redirect()->route('lex.index')
+				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
 	}
 
 }

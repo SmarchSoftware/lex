@@ -13,6 +13,7 @@
         <div class="col-sm-6">
             {!! Form::text('name', null, ['class' => 'form-control']) !!}
         </div>
+        {!! $errors->first('name', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
     <div class="form-group">
@@ -20,6 +21,7 @@
         <div class="col-sm-6">
             {!! Form::text('slug', null, ['class' => 'form-control']) !!}
         </div>
+        {!! $errors->first('slug', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
     <div class="form-group">
@@ -27,6 +29,7 @@
         <div class="col-sm-6">
             {!! Form::number('base_value', null, ['class' => 'form-control']) !!}
         </div>
+        {!! $errors->first('base_value', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
     <div class="form-group">

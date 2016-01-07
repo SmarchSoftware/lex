@@ -38,10 +38,11 @@ return [
     |
     */   
    'views' => [
-        'index'     => 'lex::index',            
-        'create'    => 'lex::create',
-        'show'      => 'lex::edit',
-        'edit'      => 'lex::edit'       
+        'index'         => 'lex::index',            
+        'create'        => 'lex::create',
+        'show'          => 'lex::edit',
+        'edit'          => 'lex::edit',
+        'unauthorized'  => 'lex::unauthorized'
     ],
 
     /*
@@ -66,19 +67,34 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Shinobi
+    | Authorization ?
     |--------------------------------------------------------------------------
     |
-    | If you use Shinobi for your ACL, enable the ACL functions and specify
-    | the authorize permissions for the different Lex functions.
+    | By default, Lex can optionally use Laravel's built in authorization
+    | methods. If you wish to make use of them, switch the enable param
+    | to true and then use the permissions or roles your app requires.
     |
-    *  
+    | All options can be either a defined permission or defined role
+    | name. Note : Lex itself  does not provide authorization and
+    | if you decide to enable the ACL options, the Auth::user()
+    | methods "can" and "cannot" must already have the roles 
+    | and permissions defined. That is outside Lex's scope.
+    |
+    | ACL overview :
+    | 'index' is to view the index page.
+    | 'create' is to create new currencies.
+    | 'show' is to view individual currencies.
+    | 'edit' is to change existing currencies.
+    | 'destroy' is to delete existing currencies.
+    |
+    */  
    'acl' => [
-        'enable'    => false;
-        'index'     => 'lex.view',            
+        'enable'    => true,
+        'index'     => 'lex.index',            
         'create'    => 'lex.create',
         'show'      => 'lex.show',
-        'edit'      => 'lex.edit'       
+        'edit'      => 'lex.edit',
+        'destroy'   => 'lex.destroy'       
     ],
     /* */
 
