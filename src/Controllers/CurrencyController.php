@@ -26,7 +26,7 @@ class CurrencyController extends Controller
 			return view( config('lex.views.unauthorized'), [ 'message' => 'view currency list' ]);
 		}
 
-		$currencies = Currency::paginate( config('lex.pagination', 15) );
+		$currencies = Currency::convertible()->paginate( config('lex.pagination', 15) );
 		return view( config('lex.views.index'), compact('currencies') );
 		
 	}
@@ -110,7 +110,7 @@ class CurrencyController extends Controller
 		$level = "danger";
 		$message = "You are not permitted to edit currencies.";
 
-		if ( config('lex.acl.enable') && ( \Auth::user()->can( config('lex.acl.edit') ) ) ) {
+		if ( config('lex.acl.enable') && ( \Auth::user()->can( config('lex.acl.edit') ) || \Auth::user()->is( config('lex.acl.edit') ) ) ) {
 			$currency = Currency::findOrFail($id);		
 			$currency->update($request->all());
 			$level = "success";

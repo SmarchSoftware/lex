@@ -30,11 +30,11 @@ class StoreRequest extends Request
             'name' => 'required|unique:currencies|max:255|min:4',
             'slug' => 'required|unique:currencies|max:32|min:4',
             'base_value' => 'required|min:0|numeric',
-            'convertible' => 'required|boolean|max:32|min:4',
-            'tradeable' => 'required|boolean|max:32|min:4',
-            'sellable' => 'required|boolean|max:32|min:4',
-            'rewardable' => 'required|boolean|max:32|min:4',
-            'discoverable' => 'required|boolean|max:32|min:4',
+            'convertible' => 'required|boolean',
+            'tradeable' => 'required|boolean',
+            'sellable' => 'required|boolean',
+            'rewardable' => 'required|boolean',
+            'discoverable' => 'required|boolean',
             'available' => 'required|between:0,2',
             'notes' => 'string|max:255|min:4',
             'type' => 'string|max:255|min:4',
@@ -42,12 +42,3 @@ class StoreRequest extends Request
 
     }
 }
-base_valuebigint(20) NOT NULL
-convertibletinyint(4) NOT NULL
-tradeabletinyint(4) NOT NULL
-sellabletinyint(4) NOT NULL
-rewardabletinyint(4) NOT NULL
-discoverabletinyint(4) NOT NULL
-notesvarchar(255) NULL
-availabletinyint(4) NULL
-typevarchar(255) NULL
