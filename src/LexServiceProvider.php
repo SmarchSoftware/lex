@@ -52,7 +52,17 @@ class LexServiceProvider extends ServiceProvider
 
         // Register it
         $this->app->bind('lex', function() {
-             return new Lex;
+             return new \Smarch\Lex\Lex;
         });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['lex'];
     }
 }
