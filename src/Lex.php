@@ -86,24 +86,64 @@ class Lex extends Model
     }
 
     /**
-     * Shortcut to convert to base
+     * Do some mathamagics.
     */
-	public function convertToBase($from)
+	public function convert($from, $to = '1', $quantity = '1')
 	{
-		return $this->convert($from, $to->id);
+		return ( $this->getValue($from) / $this->getValue($to) ) * $quantity;
 	}
 
     /**
-     * Do some mathamagics.
-    */
-	public function convert($from, $to = '1')
+     * Shortcut to convert to base
+     */
+	public function convertToBase($from, $quantity = '1')
 	{
-		$to_where = int($to) ? 'id' : 'name';
-		$to = Currency::where('base_value',$to);
+		$to = Currency::orderBy('base_value','asc')->where('available',1)->first();
+		return $this->convert($from, $to->id, $quantity);
+	}
 
-		$from_where = int($from) ? 'id' : 'name';
-		$from = Currency::where('base_value',$from);
+    /**
+     * Shortcut to convert to highest available
+     */
+	public function convertToHigh($from, $quantity = '1')
+	{
+		$to = Currency::orderBy('base_value','desc')->where('available',1)->first();
+		return $this->convert($from, $to->id, $quantity);
+	}
 
+    /**
+     * sort out required number to obtain
+    */
+	public function howMany($have, $want, $quantity_have = '1', $quantity_want = '1')
+	{
+		$want_total = $this->getValue($want) * $quantity_want; // i.e. 1 dollar (1 x 100 = 100 pennies)
+		$have_total = $this->getValue($have) * $quantity_have; // i.e. 4 nickels (4 x 5 = 20 pennies)
+		
+		$remains = ($want_total - $have_total); //i.e. 80 pennies
+
+		$needs =  ($remains / $this->getValue($have) ); // [80 / 5 = 16 nickels (= 80 pennies) ]
+
+		return $needs;
+	}
+
+    /**
+     * Shortcut
+    */
+	public function getHowMany($have, $want, $quantity_have = '1')
+	{
+		return $this->convert($have, $want, $quantity_have);
+	}
+
+	/**
+	 * Get the base value for currency provided.
+	 * accepts either ID or Name.
+	 */
+	protected function getValue($cur)
+	{
+		$where = is_int($cur) ? 'id' : 'name';
+		$res = Currency::where($where,$cur)->first();
+
+		return $res->base_value;
 	}
 
 }
