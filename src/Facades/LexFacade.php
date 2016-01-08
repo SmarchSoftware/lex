@@ -1,6 +1,6 @@
 <?php
 
-namespace Smarch\Lex;
+namespace Smarch\Lex\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
