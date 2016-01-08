@@ -52,15 +52,17 @@ class CurrencyController extends Controller
 	 */
 	public function store(StoreRequest $request)
 	{				
-		$level = "danger";
-		$message = "You are not permitted to create currencies";
-
-		if ( config('lex.acl.enable') && ( \Auth::user()->can( config('lex.acl.create') ) ) ) {
-			Currency::create($request->all());
-			$level = "success";
-			$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency created.";
+		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.create') ) ) ) {
+			$level = "danger";
+			$message = "You are not permitted to create currencies";
+			return redirect()->route('lex.index')
+				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
 		}
-
+		
+		Currency::create($request->all());
+		$level = "success";
+		$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency created.";
+		
 		return redirect()->route('lex.index')
 				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
 	}
@@ -106,17 +108,20 @@ class CurrencyController extends Controller
 	 * @return Response
 	 */
 	public function update($id, UpdateRequest $request)
-	{				
-		$level = "danger";
-		$message = "You are not permitted to edit currencies.";
-
-		if ( config('lex.acl.enable') && ( \Auth::user()->can( config('lex.acl.edit') ) || \Auth::user()->is( config('lex.acl.edit') ) ) ) {
-			$currency = Currency::findOrFail($id);		
-			$currency->update($request->all());
-			$level = "success";
-			$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency edited.";
+	{
+		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.edit') ) ) ) {
+			$level = "danger";
+			$message = "You are not permitted to edit currencies.";
+			
+			return redirect()->route('lex.index')
+					->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
 		}
 
+		$currency = Currency::findOrFail($id);		
+		$currency->update($request->all());
+		$level = "success";
+		$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency edited.";
+		
 		return redirect()->route('lex.index')
 				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
 	}
@@ -129,14 +134,16 @@ class CurrencyController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$level = "danger";
-		$message = " You are not permitted to destroy currencies.";
-
-		if ( config('lex.acl.enable') && ( \Auth::user()->can( config('lex.acl.destroy') ) ) ) {
-			Currency::destroy($id);
-			$level = "warning";
-			$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency deleted.";
+		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.destroy') ) ) ) {
+			$level = "danger";
+			$message = " You are not permitted to destroy currencies.";
+			return redirect()->route('lex.index')
+				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
 		}
+
+		Currency::destroy($id);
+		$level = "warning";
+		$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency deleted.";
 
 		return redirect()->route('lex.index')
 				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
