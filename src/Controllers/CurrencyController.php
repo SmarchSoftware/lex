@@ -26,7 +26,7 @@ class CurrencyController extends Controller
 			return view( config('lex.views.unauthorized'), [ 'message' => 'view currency list' ]);
 		}
 
-		$currencies = Currency::convertible()->paginate( config('lex.pagination', 15) );
+		$currencies = Currency::paginate( config('lex.pagination', 15) );
 		return view( config('lex.views.index'), compact('currencies') );
 		
 	}
