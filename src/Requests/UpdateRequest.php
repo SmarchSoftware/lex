@@ -34,8 +34,8 @@ class UpdateRequest extends Request
             'rewardable' => 'required|boolean',
             'discoverable' => 'required|boolean',
             'available' => 'required|between:0,2',
-            'notes' => 'string|max:255|min:4',
-            'type' => 'string|max:255|min:4',
+            'notes' => 'string|max:255|min:2',
+            'type' => 'string|max:255|min:2',
         ];
 
     }
