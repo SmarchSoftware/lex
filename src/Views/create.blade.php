@@ -5,9 +5,9 @@
     <h1>Create New Currency</h1>
     <hr/>
 
-    {!! Form::open( ['route' => 'lex.store', 'class' => 'form-horizontal']) !!}
+    {!! Form::open( ['route' => 'lex.store', 'class' => 'form-horizontal'] ) !!}
     
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
         {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             {!! Form::text('name', null, ['class' => 'form-control']) !!}
@@ -15,7 +15,7 @@
         {!! $errors->first('name', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('slug') ? 'has-error' : ''}}">
         {!! Form::label('slug', 'Slug: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             {!! Form::text('slug', null, ['class' => 'form-control']) !!}
@@ -23,7 +23,7 @@
         {!! $errors->first('slug', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('base_value') ? 'has-error' : ''}}">
         {!! Form::label('base_value', 'Base Value: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             {!! Form::number('base_value', null, ['class' => 'form-control']) !!}
@@ -31,7 +31,7 @@
         {!! $errors->first('base_value', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('convertible') ? 'has-error' : ''}}">
         {!! Form::label('convertible', 'Convertible: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             <div class="btn-group" data-toggle="buttons">
@@ -52,7 +52,7 @@
         {!! $errors->first('convertible', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('tradeable') ? 'has-error' : ''}}">
         {!! Form::label('tradeable', 'Tradeable: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             <div class="btn-group" data-toggle="buttons">
@@ -72,7 +72,7 @@
         {!! $errors->first('tradeable', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('sellable') ? 'has-error' : ''}}">
         {!! Form::label('sellable', 'Sellable: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             <div class="btn-group" data-toggle="buttons">
@@ -92,7 +92,7 @@
         {!! $errors->first('sellable', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('rewardable') ? 'has-error' : ''}}">
         {!! Form::label('rewardable', 'Rewardable: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             <div class="btn-group" data-toggle="buttons">
@@ -112,7 +112,7 @@
         {!! $errors->first('rewardable', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('discoverable') ? 'has-error' : ''}}">
         {!! Form::label('discoverable', 'Discoverable: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             <div class="btn-group" data-toggle="buttons">
@@ -132,7 +132,7 @@
         {!! $errors->first('discoverable', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('available') ? 'has-error' : ''}}">
         {!! Form::label('available', 'Available: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             <div class="btn-group" data-toggle="buttons">
@@ -156,7 +156,7 @@
         {!! $errors->first('available', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('type') ? 'has-error' : ''}}">
         {!! Form::label('type', 'Type: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             {!! Form::text('type', null, ['class' => 'form-control', 'placeholder' => 'For your classification / filtering needs.']) !!}
@@ -164,7 +164,7 @@
         {!! $errors->first('type', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}  
     </div>
 
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('notes') ? 'has-error' : ''}}">
         {!! Form::label('notes', 'Notes: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             {!! Form::textarea('notes', null, ['class' => 'form-control']) !!}
