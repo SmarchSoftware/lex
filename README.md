@@ -64,6 +64,6 @@ Next you need to add the migration to create the Lex Currency table to hold your
     
     php artisan db:seed --class Smarch\Lex\Seeds\LexTableSeeder     
 
-#### :trident: Why "Watchtower"?
+#### :trident: Why "Lex"?
 I've been a DC geek for over 30 years now. Lex Luther in DC has always been "the money guy" for me so..."Lex". :smile:
    
