@@ -16,13 +16,35 @@ class CurrencyController extends Controller
 {
 
 	/**
+	 * Will check user access depending on the driver being used.
+	 * Defaults to using laravel Auth Guard driver
+	 * @param  [string] $permission
+	 * @return [boolean]
+	 */
+	protected function checkAccess($permission) {
+		$result = false;
+
+		$driver = config('lex.acl.driver');
+
+		if ($driver  == 'shinobi' ) { 
+			$result = \Shinobi::can($permission);
+		} elseif ($driver == 'sentinel') {
+			$result = \Sentinel::hasAccess($permission);
+		} else {
+			$result = \Auth::user()->can($permission);
+		}
+
+		return $result;	
+	}
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
-		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.index') ) ) ) {
+		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.index') ) ) ) {
 			return view( config('lex.views.unauthorized'), [ 'message' => 'view currency list' ]);
 		}
 
@@ -38,7 +60,7 @@ class CurrencyController extends Controller
 	 */
 	public function create()
 	{
-		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.create') ) ) ) {
+		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.create') ) ) ) {
 			return view( config('lex.views.unauthorized'), [ 'message' => 'create new currency types' ]);
 		}
 
@@ -52,7 +74,7 @@ class CurrencyController extends Controller
 	 */
 	public function store(StoreRequest $request)
 	{				
-		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.create') ) ) ) {
+		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.create') ) ) ) {
 			$level = "danger";
 			$message = "You are not permitted to create currencies";
 			return redirect()->route('lex.index')
@@ -75,7 +97,7 @@ class CurrencyController extends Controller
 	 */
 	public function show($id)
 	{
-		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.show') ) ) ) {
+		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.show') ) ) ) {
 			return view( config('lex.views.unauthorized'), [ 'message' => 'view existing currency types' ]);
 		}
 
@@ -92,7 +114,7 @@ class CurrencyController extends Controller
 	 */
 	public function edit($id)
 	{
-		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.edit') ) ) ) {
+		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.edit') ) ) ) {
 			return view( config('lex.views.unauthorized'), [ 'message' => 'edit existing currency types' ]);
 		}
 
@@ -109,7 +131,7 @@ class CurrencyController extends Controller
 	 */
 	public function update($id, UpdateRequest $request)
 	{
-		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.edit') ) ) ) {
+		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.edit') ) ) ) {
 			$level = "danger";
 			$message = "You are not permitted to edit currencies.";
 			
@@ -134,7 +156,7 @@ class CurrencyController extends Controller
 	 */
 	public function destroy($id)
 	{
-		if ( config('lex.acl.enable') && ( ! \Auth::user()->can( config('lex.acl.destroy') ) ) ) {
+		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.destroy') ) ) ) {
 			$level = "danger";
 			$message = " You are not permitted to destroy currencies.";
 			return redirect()->route('lex.index')
