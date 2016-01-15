@@ -16,18 +16,25 @@
 
     <div class="table">
         <table class="table table-hover">
+        <caption>
+          Your base value is your lowest, available currency unless specifically specified below with this icon <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i>.
+        </caption>
             <thead>
                 <tr>
-                    <th>Name</th><th>Base Value</th><th>Actions</th>
+                    <th>Name</th><th class="hidden-xs hidden-sm">Base Value</th><th>Actions</th>
                 </tr>
             </thead>
 
             <tbody>
               @forelse($currencies as $item)
                <tr>
-                <td>{{ $item->name }}</td>
+                <td>{{ $item->name }}
+                @if ($item->slug == 'base')
+                      <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i> 
+                @endif
+                </td>
                 
-                <td>
+                <td class="hidden-xs hidden-sm">
                     {{ $item->base_value }}
                 </td>
                 
