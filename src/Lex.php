@@ -98,7 +98,11 @@ class Lex extends Model
      */
 	public function convertToBase($from, $quantity = '1')
 	{
-		$to = Currency::orderBy('base_value','asc')->where('available',1)->first();
+        // check for defined base slug first, if not grab lowest valued.
+        if (! $to = Currency::where('slug','base')->where('available',1)->first()) {
+    		$to = Currency::orderBy('base_value','asc')->where('available',1)->first();
+        }
+
 		return $this->convert($from, $to->id, $quantity);
 	}
 
