@@ -70,7 +70,7 @@ return [
     | Authorization ?
     |--------------------------------------------------------------------------
     |
-    | By default, Lex can optionally use Laravel's built in authorization
+    | Out of the box, Lex can optionally use Laravel's built in authorization
     | methods. If you wish to make use of them, switch the enable param
     | to true and then use the permissions that your app requires.
     |
