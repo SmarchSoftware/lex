@@ -26,7 +26,7 @@
     <div class="form-group {{ $errors->has('base_value') ? 'has-error' : ''}}">
         {!! Form::label('base_value', 'Base Value: ', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-            {!! Form::number('base_value', null, ['class' => 'form-control']) !!}
+            {!! Form::number('base_value', null, ['class' => 'form-control', 'min' => 1]) !!}
         </div>
         {!! $errors->first('base_value', '<div class="col-sm-6 col-sm-offset-3 text-danger">:message</div>') !!}
     </div>

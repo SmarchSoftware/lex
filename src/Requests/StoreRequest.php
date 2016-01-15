@@ -29,7 +29,7 @@ class StoreRequest extends Request
        return [
             'name' => 'required|unique:currencies|max:255|min:4',
             'slug' => 'required|unique:currencies|max:32|min:4',
-            'base_value' => 'required|min:0|numeric',
+            'base_value' => 'required|min:1|numeric',
             'convertible' => 'required|boolean',
             'tradeable' => 'required|boolean',
             'sellable' => 'required|boolean',

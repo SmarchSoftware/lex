@@ -5,7 +5,7 @@ This is probably only of use to me, but I have need of it in multiple apps so I 
 ***
 
 # Lex
-A game-currency management package. Everything need to add / edit / manage your game's version of currency (pennies, dollars, gold, silver, bucks, dineros, crystals, pounds, etc...) and their relation to each other. Set your lowest form currency _(for example - penny)_ and then add "higher value" / "lower value" / "different value" versions of that base. _(i.e. "dollar" = "100" base currency, "half-penny" = ".5" base value)_.
+A game-currency management package. Everything need to add / edit / manage your game's version of currency (pennies, dollars, gold, silver, bucks, dineros, crystals, pounds, etc...) and their relation to each other. Set your lowest form currency _(for example - penny)_ and then add "higher value" / "lower value" / "different value" versions of that base. _(i.e. "dollar" = "100" base currency, "silver" = "1350" base value)_.
 
 Out of the box, Lex contains all the views necessary to enable "Game Currency" management. It also uses the config file to for you to easily define the necessary permissions to secure your site so that only those allowed to perform the admin functions are permitted _(or you can disable ACL altogether)_. Since it is a config file all views and permissions are configurable so you are free to provide your own views and change the permissions the way your app requires them.
 

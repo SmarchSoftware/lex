@@ -27,7 +27,7 @@ class UpdateRequest extends Request
         return [
             'slug' => 'required|unique:currencies,slug,'.$this->get('id').'|max:255|min:4',
             'name' => 'required|unique:currencies,name,'.$this->get('id').'|max:32|min:4',
-            'base_value' => 'required|min:0|numeric',
+            'base_value' => 'required|min:1|numeric',
             'convertible' => 'required|boolean',
             'tradeable' => 'required|boolean',
             'sellable' => 'required|boolean',

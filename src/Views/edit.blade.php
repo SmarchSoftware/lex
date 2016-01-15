@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-group {{ $errors->has('base_value') ? 'has-error' : ''}}">
-        {!! Form::label('base_value', 'Base Value: ', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('base_value', 'Base Value: ', ['class' => 'col-sm-3 control-label', 'min' => 1]) !!}
         <div class="col-sm-6">
             {!! Form::number('base_value', null, ['class' => 'form-control']) !!}
         </div>
