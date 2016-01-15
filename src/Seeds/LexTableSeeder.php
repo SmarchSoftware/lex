@@ -30,7 +30,7 @@ class LexTableSeeder extends Seeder
             ],
             [ 
                 'name'          => 'Quarter',
-                'slug'          => 'quater',
+                'slug'          => 'quarter',
                 'base_value'    => '25',
                 'convertible'   => '1',
                 'tradeable'     => '1',
