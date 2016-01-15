@@ -90,7 +90,7 @@ return [
     |
     */  
    'acl' => [
-        'enable'    => true,
+        'enable'    => false,
         'driver'    => 'laravel',
         'index'     => 'lex.index',            
         'create'    => 'lex.create',
