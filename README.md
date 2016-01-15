@@ -5,7 +5,9 @@ This is probably only of use to me, but I have need of it in multiple apps so I 
 ***
 
 # Lex
-A game-currency management package. Everything need to add / edit / manage your game's version of currency (pennies, dollars, gold, silver, bucks, dineros, crystals, pounds, etc...) and their relation to each other. Set your lowest form currency _(for example - penny)_ and then add "higher value" / "lower value" / "different value" versions of that base. _(i.e. "dollar" = "100" base currency, "silver" = "1350" base value)_.
+A game-currency management package. Everything need to add / edit / manage your game's version of currency _(pennies, dollars, gold, silver, bucks, dineros, crystals, pounds, etc...)_ and their relation to each other. Set your lowest form currency _(for example - penny)_ and then add "higher value" / "lower value" / "different value" versions of that base. _(i.e. "dollar" = "100" base currency, "silver" = "1350" base value)_.
+
+## Overview
 
 Out of the box, Lex contains all the views necessary to enable "Game Currency" management. It also uses the config file to for you to easily define the necessary permissions to secure your site so that only those allowed to perform the admin functions are permitted _(or you can disable ACL altogether)_. Since it is a config file all views and permissions are configurable so you are free to provide your own views and change the permissions the way your app requires them.
 
@@ -17,7 +19,7 @@ Lex also comes with a config file that will allow you to specify the routes, vie
 
 If you have a need for in-game currency management this will be a package to help with that.
 
-## Overview
+## Installation
 
 This page is intended for installation, please check out the wiki for more information about usage.
 
@@ -57,6 +59,7 @@ Next you need to add the migration to create the Lex Currency table to hold your
     php artisan migrate
 
 > :exclamation: Optional - DatabaseSeed
+> 
 > Lex comes equipped with a database seed that can start off your game-currency with some common currencies.
     
     php artisan db:seed --class Smarch\Lex\Seeds\LexTableSeeder        
