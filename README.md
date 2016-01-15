@@ -29,7 +29,7 @@ This page is intended for installation, please check out the wiki for more infor
 
 #### :pencil: Service Provider
 
-Lex uses the "laravelcollective/html" package for Html & Form rendering so composer will install that as well if you don't already have it installed _(you probably do...or should)_. Once composer has installed the necessary packages for Lex to function you need to open your laravel config page for service providers and add Lex _(and if necessary the Laravel Collective Html provider)_. To properly function you need to have both service providers referenced : [HTML Forms](https://laravelcollective.com/docs/5.1/html) and Lex.
+Lex uses the [HTML Forms](https://laravelcollective.com/docs/5.1/html) package from the "Laravel Collective" for Html & Form rendering so composer will install that as well if you don't already have it installed _(you probably do...or should)_. Once composer has installed the necessary packages for Lex to function you need to open your laravel config page for service providers and add Lex _(and if necessary the Laravel Collective Html provider)_. To properly function you need to have both service providers referenced : [HTML Forms](https://laravelcollective.com/docs/5.1/html) and Lex.
 
 *config/app.php*
        
