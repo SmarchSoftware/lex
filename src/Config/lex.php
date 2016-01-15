@@ -80,6 +80,8 @@ return [
     | Installing/enabling authorization is outside Lex's scope.
     |
     | ACL overview :
+    | 'enable' true/false
+    | 'driver' [ "laravel" or "shinobi" or "sentinel" ]
     | 'index' is to view the index page.
     | 'create' is to create new currencies.
     | 'show' is to view individual currencies.
@@ -89,12 +91,12 @@ return [
     */  
    'acl' => [
         'enable'    => true,
+        'driver'    => 'laravel',
         'index'     => 'lex.index',            
         'create'    => 'lex.create',
         'show'      => 'lex.show',
         'edit'      => 'lex.edit',
         'destroy'   => 'lex.destroy'       
     ],
-    /* */
 
 ];
