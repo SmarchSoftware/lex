@@ -58,4 +58,5 @@ Next you need to add the migration to create the Lex Currency table to hold your
 
 > :exclamation: Optional - DatabaseSeed
 > Lex comes equipped with a database seed that can start off your game-currency with some common currencies.
+    
     php artisan db:seed --class Smarch\Lex\Seeds\LexTableSeeder        
