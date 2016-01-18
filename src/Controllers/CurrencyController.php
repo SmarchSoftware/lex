@@ -64,7 +64,7 @@ class CurrencyController extends Controller
 			return view( config('lex.views.unauthorized'), [ 'message' => 'create new currency types' ]);
 		}
 
-		return view('lex::create');
+		return view( config('lex.views.create') );
 	}
 
 	/**
