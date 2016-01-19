@@ -8,8 +8,12 @@ class Lex extends Currency
 {
 
     /**
-     * Do some mathamagics.
-    */
+     * Do some mathamagics
+     * @param  string $from
+     * @param  string $to
+     * @param  string $quantity
+     * @return int
+     */
 	public function convert($from, $to = '1', $quantity = '1')
 	{
 		return ( $this->getValue($from) / $this->getValue($to) ) * $quantity;
@@ -18,6 +22,9 @@ class Lex extends Currency
 
     /**
      * convert to base using slug or lowest available
+     * @param  string $from
+     * @param  string $quantity
+     * @return conversion
      */
 	public function convertToBase($from, $quantity = '1')
 	{
@@ -32,7 +39,7 @@ class Lex extends Currency
 
     /**
      * Get value of currency
-     * @return [int]
+     * @return int
      */
     public function value($cur) {
         return $this->getValue($cur);
@@ -40,9 +47,11 @@ class Lex extends Currency
 
 
 	/**
-	 * Get the base value for currency provided.
-	 * accepts either ID or Name.
-	 */
+     *  Get the base value for currency provided.
+     *  Accepts either ID or Name.
+     * @param  string/integer $cur Currency
+     * @return int
+     */
 	protected function getValue($cur)
 	{
 		$where = is_int($cur) ? 'id' : 'name';
