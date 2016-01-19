@@ -2,99 +2,39 @@
 
 namespace Smarch\Lex;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Smarch\Lex\Models\Currency;
 
-class Lex extends Model
+class Lex extends Currency
 {
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
+     * Do some mathamagics
+     * @param  string $from
+     * @param  string $to
+     * @param  string $quantity
+     * @return int
      */
-    protected $table = 'currencies';
-
-    /**
-     * Scope a query to only include convertible currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-	public function convertible() {
-		return Currency::convertible();
-	}
-
-    /**
-     * Scope a query to only include tradeable currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function tradeable()
-    {
-        return Currency::tradeable();
-    }
-
-    /**
-     * Scope a query to only include sellable currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function sellable()
-    {
-        return Currency::sellable();
-    }
-
-    /**
-     * Scope a query to only include rewardable currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function rewardable()
-    {
-        return Currency::rewardable();
-    }
-
-    /**
-     * Scope a query to only include discoverable currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function discoverable()
-    {
-        return Currency::discoverable();
-    }
-
-    /**
-     * Scope a query to only include available currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function available($val = 1)
-    {
-        return Currency::available($val);
-    }
-
-    /**
-     * Scope a query to only include certain type currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function type($type = '')
-    {
-        return Currency::type($type);
-    }
-
-    /**
-     * Do some mathamagics.
-    */
 	public function convert($from, $to = '1', $quantity = '1')
 	{
+        $from_value = $this->getValue($from);
+        if ( is_string($from_value) ) {
+            return $from_value;
+        }
+
+        $to_value = $this->getValue($to);
+        if ( is_string($to_value) ) {
+            return $to_value;
+        }
+
 		return ( $this->getValue($from) / $this->getValue($to) ) * $quantity;
 	}
 
+
     /**
-     * Shortcut to convert to base
+     * convert to base using slug or lowest available
+     * @param  string $from
+     * @param  string $quantity
+     * @return conversion
      */
 	public function convertToBase($from, $quantity = '1')
 	{
@@ -106,48 +46,40 @@ class Lex extends Model
 		return $this->convert($from, $to->id, $quantity);
 	}
 
+
     /**
-     * Shortcut to convert to highest available
+     * Get value of currency
+     * @return 
      */
-	public function convertToHigh($from, $quantity = '1')
-	{
-		$to = Currency::orderBy('base_value','desc')->where('available',1)->first();
-		return $this->convert($from, $to->id, $quantity);
-	}
+    public function value($cur) {
+        return $this->getValue($cur, false);
+    }
 
-    /**
-     * sort out required number to obtain
-    */
-	public function howMany($have, $want, $quantity_have = '1', $quantity_want = '1')
-	{
-		$want_total = $this->getValue($want) * $quantity_want; // i.e. 1 dollar (1 x 100 = 100 pennies)
-		$have_total = $this->getValue($have) * $quantity_have; // i.e. 4 nickels (4 x 5 = 20 pennies)
-		
-		$remains = ($want_total - $have_total); //i.e. 80 pennies
-
-		$needs =  ($remains / $this->getValue($have) ); // [80 / 5 = 16 nickels (= 80 pennies) ]
-
-		return $needs;
-	}
-
-    /**
-     * Shortcut
-    */
-	public function getHowMany($have, $want, $quantity_have = '1')
-	{
-		return $this->convert($have, $want, $quantity_have);
-	}
 
 	/**
-	 * Get the base value for currency provided.
-	 * accepts either ID or Name.
-	 */
-	protected function getValue($cur)
+     *  Get the base value for currency provided.
+     *  Accepts either ID or Name.
+     * @param  string/integer $cur Currency
+     * @return 
+     */
+	protected function getValue($cur, $check = true)
 	{
 		$where = is_int($cur) ? 'id' : 'name';
 		$res = Currency::where($where,$cur)->first();
 
-		return $res->base_value;
+        if ($res->convertible == 0 && $check === true) {
+            return str_plural($res->name) . ' are not convertible.';
+        }
+
+        if ($res->available == 0) {
+            return  str_plural($res->name) . ' are retired. (Valued at : '.$res->base_value.')';
+        }
+
+        if ($res->available == 2) {
+            return str_plural($res->name) . ' are devalued and worthless. (Originally : '.$res->base_value.')';
+        }
+
+        return $res->base_value;
 	}
 
 }

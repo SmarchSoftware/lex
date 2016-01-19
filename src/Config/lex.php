@@ -11,8 +11,8 @@ return [
     | expected that you already have your own master layout to use.
     |
     |
-    */   
-   'layout' => 'watchtower::layouts.master',
+    */
+   'layout' => 'layouts.app',
 
     /*
     |--------------------------------------------------------------------------
