@@ -68,15 +68,15 @@ class Lex extends Currency
 		$res = Currency::where($where,$cur)->first();
 
         if ($res->convertible == 0 && $check === true) {
-            return $res->name . ' is not convertible';
+            return str_plural($res->name) . ' are not convertible.';
         }
 
         if ($res->available == 0) {
-            return  $res->name . ' is retired. (Valued at : '.$res->base_value.')';
+            return  str_plural($res->name) . ' are retired. (Valued at : '.$res->base_value.')';
         }
 
         if ($res->available == 2) {
-            return  $res->name . ' is devalued and worthless. (Originally : '.$res->base_value.')';
+            return str_plural($res->name) . ' are devalued and worthless. (Originally : '.$res->base_value.')';
         }
 
         return $res->base_value;
