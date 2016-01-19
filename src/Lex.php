@@ -2,8 +2,6 @@
 
 namespace Smarch\Lex;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Smarch\Lex\Models\Currency;
 
 class Lex extends Currency
