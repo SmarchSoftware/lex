@@ -6,84 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use Smarch\Lex\Models\Currency;
 
-class Lex extends Model
+class Lex extends Currency
 {
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'currencies';
-
-    /**
-     * Scope a query to only include convertible currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-	public function convertible($is = true) {
-		return Currency::convertible($is);
-	}
-
-    /**
-     * Scope a query to only include tradeable currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function tradeable($is = true)
-    {
-        return Currency::tradeable($is);
-    }
-
-    /**
-     * Scope a query to only include sellable currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function sellable($is = true)
-    {
-        return Currency::sellable($is);
-    }
-
-    /**
-     * Scope a query to only include rewardable currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function rewardable($is = true)
-    {
-        return Currency::rewardable($is);
-    }
-
-    /**
-     * Scope a query to only include discoverable currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function discoverable($is = true)
-    {
-        return Currency::discoverable($is);
-    }
-
-    /**
-     * Scope a query to only include available currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function available($val = 1)
-    {
-        return Currency::available($val);
-    }
-
-    /**
-     * Scope a query to only include certain type currencies
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function type($type = '')
-    {
-        return Currency::type($type);
-    }
 
     /**
      * Do some mathamagics.
@@ -93,8 +17,9 @@ class Lex extends Model
 		return ( $this->getValue($from) / $this->getValue($to) ) * $quantity;
 	}
 
+
     /**
-     * Shortcut to convert to base
+     * convert to base using slug or lowest available
      */
 	public function convertToBase($from, $quantity = '1')
 	{
@@ -106,37 +31,15 @@ class Lex extends Model
 		return $this->convert($from, $to->id, $quantity);
 	}
 
+
     /**
-     * Shortcut to convert to highest available
+     * Get value of currency
+     * @return [int]
      */
-	public function convertToHigh($from, $quantity = '1')
-	{
-		$to = Currency::orderBy('base_value','desc')->where('available',1)->first();
-		return $this->convert($from, $to->id, $quantity);
-	}
+    public function value($cur) {
+        return $this->getValue($cur);
+    }
 
-    /**
-     * sort out required number to obtain
-    */
-	public function howMany($have, $want, $quantity_have = '1', $quantity_want = '1')
-	{
-		$want_total = $this->getValue($want) * $quantity_want; // i.e. 1 dollar (1 x 100 = 100 pennies)
-		$have_total = $this->getValue($have) * $quantity_have; // i.e. 4 nickels (4 x 5 = 20 pennies)
-		
-		$remains = ($want_total - $have_total); //i.e. 80 pennies
-
-		$needs =  ($remains / $this->getValue($have) ); // [80 / 5 = 16 nickels (= 80 pennies) ]
-
-		return $needs;
-	}
-
-    /**
-     * Shortcut
-    */
-	public function getHowMany($have, $want, $quantity_have = '1')
-	{
-		return $this->convert($have, $want, $quantity_have);
-	}
 
 	/**
 	 * Get the base value for currency provided.
