@@ -21,8 +21,8 @@ class Lex extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-	public function convertible() {
-		return Currency::convertible();
+	public function convertible($is = true) {
+		return Currency::convertible($is);
 	}
 
     /**
@@ -30,9 +30,9 @@ class Lex extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function tradeable()
+    public function tradeable($is = true)
     {
-        return Currency::tradeable();
+        return Currency::tradeable($is);
     }
 
     /**
@@ -40,9 +40,9 @@ class Lex extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function sellable()
+    public function sellable($is = true)
     {
-        return Currency::sellable();
+        return Currency::sellable($is);
     }
 
     /**
@@ -50,9 +50,9 @@ class Lex extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function rewardable()
+    public function rewardable($is = true)
     {
-        return Currency::rewardable();
+        return Currency::rewardable($is);
     }
 
     /**
@@ -60,9 +60,9 @@ class Lex extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function discoverable()
+    public function discoverable($is = true)
     {
-        return Currency::discoverable();
+        return Currency::discoverable($is);
     }
 
     /**

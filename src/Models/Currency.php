@@ -26,9 +26,9 @@ class Currency extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeConvertible($query)
+    public function scopeConvertible($query, $is = true)
     {
-        return $query->where('convertible', 1);
+        return $query->where('convertible', ( ($is) ? 1 : 0 ) );
     }
 
     /**
@@ -36,9 +36,9 @@ class Currency extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeTradeable($query)
+    public function scopeTradeable($query, $is = true)
     {
-        return $query->where('tradeable', 1);
+        return $query->where('tradeable', ( ($is) ? 1 : 0 ) );
     }
 
     /**
@@ -46,9 +46,9 @@ class Currency extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSellable($query)
+    public function scopeSellable($query, $is = true)
     {
-        return $query->where('sellable', 1);
+        return $query->where('sellable', ( ($is) ? 1 : 0 ) );
     }
 
     /**
@@ -56,9 +56,9 @@ class Currency extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeRewardable($query)
+    public function scopeRewardable($query, $is = true)
     {
-        return $query->where('rewardable', 1);
+        return $query->where('rewardable', ( ($is) ? 1 : 0 ) );
     }
 
     /**
@@ -66,9 +66,9 @@ class Currency extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeDiscoverable($query)
+    public function scopeDiscoverable($query, $is = true)
     {
-        return $query->where('discoverable', 1);
+        return $query->where('discoverable', ( ($is) ? 1 : 0 ) );
     }
 
     /**
