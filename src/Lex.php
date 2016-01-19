@@ -16,6 +16,16 @@ class Lex extends Currency
      */
 	public function convert($from, $to = '1', $quantity = '1')
 	{
+        $from_value = $this->getValue($from);
+        if ( is_string($from_value) ) {
+            return $from_value;
+        }
+
+        $to_value = $this->getValue($to);
+        if ( is_string($to_value) ) {
+            return $to_value;
+        }
+
 		return ( $this->getValue($from) / $this->getValue($to) ) * $quantity;
 	}
 
@@ -39,10 +49,10 @@ class Lex extends Currency
 
     /**
      * Get value of currency
-     * @return int
+     * @return 
      */
     public function value($cur) {
-        return $this->getValue($cur);
+        return $this->getValue($cur, false);
     }
 
 
@@ -50,14 +60,26 @@ class Lex extends Currency
      *  Get the base value for currency provided.
      *  Accepts either ID or Name.
      * @param  string/integer $cur Currency
-     * @return int
+     * @return 
      */
-	protected function getValue($cur)
+	protected function getValue($cur, $check = true)
 	{
 		$where = is_int($cur) ? 'id' : 'name';
 		$res = Currency::where($where,$cur)->first();
 
-		return $res->base_value;
+        if ($res->convertible == 0 && $check === true) {
+            return $res->name . ' is not convertible';
+        }
+
+        if ($res->available == 0) {
+            return  $res->name . ' is retired. (Valued at : '.$res->base_value.')';
+        }
+
+        if ($res->available == 2) {
+            return  $res->name . ' is devalued and worthless. (Originally : '.$res->base_value.')';
+        }
+
+        return $res->base_value;
 	}
 
 }
