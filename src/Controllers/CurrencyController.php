@@ -11,31 +11,12 @@ use Carbon\Carbon;
 use Smarch\Lex\Models\Currency;
 use Smarch\Lex\Requests\StoreRequest;
 use Smarch\Lex\Requests\UpdateRequest;
+use Smarch\Lex\Traits\SmarchACLTrait;
 
 class CurrencyController extends Controller
 {
-
-	/**
-	 * Will check user access depending on the driver being used.
-	 * Defaults to using laravel Auth Guard driver
-	 * @param  [string] $permission
-	 * @return [boolean]
-	 */
-	protected function checkAccess($permission) {
-		$result = false;
-
-		$driver = config('lex.acl.driver');
-
-		if ($driver  == 'shinobi' ) { 
-			$result = \Shinobi::can($permission);
-		} elseif ($driver == 'sentinel') {
-			$result = \Sentinel::hasAccess($permission);
-		} else {
-			$result = \Auth::user()->can($permission);
-		}
-
-		return $result;	
-	}
+	
+	use SmarchACLTrait;
 
 	/**
 	 * Display a listing of the resource.
