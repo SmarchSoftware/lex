@@ -12,6 +12,9 @@ trait SmarchACLTrait {
 	 * @return [boolean]
 	 */
 	protected function checkAccess($permission) {
+		if ( config('lex.acl.enable', true) === false )
+			return true;
+			
 		$driver = "acl" . ucfirst( config('lex.acl.driver', 'laravel') );
 
 		return $this->$driver($permission);
