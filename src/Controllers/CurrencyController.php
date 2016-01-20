@@ -11,31 +11,12 @@ use Carbon\Carbon;
 use Smarch\Lex\Models\Currency;
 use Smarch\Lex\Requests\StoreRequest;
 use Smarch\Lex\Requests\UpdateRequest;
+use Smarch\Lex\Traits\SmarchACLTrait;
 
 class CurrencyController extends Controller
 {
 
-	/**
-	 * Will check user access depending on the driver being used.
-	 * Defaults to using laravel Auth Guard driver
-	 * @param  [string] $permission
-	 * @return [boolean]
-	 */
-	protected function checkAccess($permission) {
-		$result = false;
-
-		$driver = config('lex.acl.driver');
-
-		if ($driver  == 'shinobi' ) { 
-			$result = \Shinobi::can($permission);
-		} elseif ($driver == 'sentinel') {
-			$result = \Sentinel::hasAccess($permission);
-		} else {
-			$result = \Auth::user()->can($permission);
-		}
-
-		return $result;	
-	}
+	use SmarchACLTrait;
 
 	/**
 	 * Display a listing of the resource.
@@ -44,7 +25,7 @@ class CurrencyController extends Controller
 	 */
 	public function index()
 	{
-		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.index') ) ) ) {
+		if ( ! $this->checkAccess( config('lex.acl.index') ) ) {
 			return view( config('lex.views.unauthorized'), [ 'message' => 'view currency list' ]);
 		}
 
@@ -60,7 +41,7 @@ class CurrencyController extends Controller
 	 */
 	public function create()
 	{
-		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.create') ) ) ) {
+		if ( ! $this->checkAccess( config('lex.acl.create') ) ) {
 			return view( config('lex.views.unauthorized'), [ 'message' => 'create new currency types' ]);
 		}
 
@@ -74,7 +55,7 @@ class CurrencyController extends Controller
 	 */
 	public function store(StoreRequest $request)
 	{				
-		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.create') ) ) ) {
+		if ( ! $this->checkAccess( config('lex.acl.create') ) ) {
 			$level = "danger";
 			$message = "You are not permitted to create currencies";
 			return redirect()->route('lex.index')
@@ -97,7 +78,7 @@ class CurrencyController extends Controller
 	 */
 	public function show($id)
 	{
-		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.show') ) ) ) {
+		if ( ! $this->checkAccess( config('lex.acl.show') ) ) {
 			return view( config('lex.views.unauthorized'), [ 'message' => 'view existing currency types' ]);
 		}
 
@@ -114,7 +95,7 @@ class CurrencyController extends Controller
 	 */
 	public function edit($id)
 	{
-		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.edit') ) ) ) {
+		if ( ! $this->checkAccess( config('lex.acl.edit') ) ) {
 			return view( config('lex.views.unauthorized'), [ 'message' => 'edit existing currency types' ]);
 		}
 
@@ -131,7 +112,7 @@ class CurrencyController extends Controller
 	 */
 	public function update($id, UpdateRequest $request)
 	{
-		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.edit') ) ) ) {
+		if ( ! $this->checkAccess( config('lex.acl.edit') ) ) {
 			$level = "danger";
 			$message = "You are not permitted to edit currencies.";
 			
@@ -156,7 +137,7 @@ class CurrencyController extends Controller
 	 */
 	public function destroy($id)
 	{
-		if ( config('lex.acl.enable') && ( ! $this->checkAccess( config('lex.acl.destroy') ) ) ) {
+		if ( ! $this->checkAccess( config('lex.acl.destroy') ) ) {
 			$level = "danger";
 			$message = " You are not permitted to destroy currencies.";
 			return redirect()->route('lex.index')
