@@ -18,6 +18,20 @@ class CurrencyController extends Controller
 
 	use SmarchACLTrait;
 
+	var $acl = false;
+	var $driver = 'laravel';
+
+	/**
+	 * constructor
+	 * 
+	 * @param boolean acl Whether or not ACL is enabled
+	 * @param string $driver Which ACL package to use
+	 */
+	public function __construct() {
+		$this->acl = config('lex.acl.enable');
+		$this->driver = config('lex.acl.driver');
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
