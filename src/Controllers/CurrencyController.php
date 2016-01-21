@@ -30,6 +30,7 @@ class CurrencyController extends Controller
 	public function __construct() {
 		$this->acl = config('lex.acl.enable');
 		$this->driver = config('lex.acl.driver');
+        $this->unauthorized = config('lex.views.unauthorized');
 	}
 
 	/**
@@ -39,13 +40,12 @@ class CurrencyController extends Controller
 	 */
 	public function index()
 	{
-		if ( ! $this->checkAccess( config('lex.acl.index') ) ) {
-			return view( config('lex.views.unauthorized'), [ 'message' => 'view currency list' ]);
+		if ( $this->checkAccess( config('lex.acl.index') ) ) {
+			$currencies = Currency::orderBy('base_value')->paginate( config('lex.pagination', 15) );
+			return view( config('lex.views.index'), compact('currencies') );
 		}
-
-		$currencies = Currency::orderBy('base_value')->paginate( config('lex.pagination', 15) );
-		return view( config('lex.views.index'), compact('currencies') );
 		
+		return view( $this->unauthorized, ['message' => 'view currency list'] );
 	}
 
 	/**
@@ -55,11 +55,11 @@ class CurrencyController extends Controller
 	 */
 	public function create()
 	{
-		if ( ! $this->checkAccess( config('lex.acl.create') ) ) {
-			return view( config('lex.views.unauthorized'), [ 'message' => 'create new currency types' ]);
+		if ( $this->checkAccess( config('lex.acl.create') ) ) {
+			return view( config('lex.views.create') );
 		}
 
-		return view( config('lex.views.create') );
+		return view( $this->unauthorized, ['message' => 'create new currency types'] );
 	}
 
 	/**
@@ -69,19 +69,14 @@ class CurrencyController extends Controller
 	 */
 	public function store(StoreRequest $request)
 	{				
-		if ( ! $this->checkAccess( config('lex.acl.create') ) ) {
-			$level = "danger";
-			$message = "You are not permitted to create currencies";
+		if ( $this->checkAccess( config('lex.acl.create') ) ) {
+			Currency::create( $request->all() );
 			return redirect()->route('lex.index')
-				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
+				->with( ['flash' => ['message' => "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency created.", 'level' => "success"] ] );
 		}
-		
-		Currency::create($request->all());
-		$level = "success";
-		$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency created.";
-		
+
 		return redirect()->route('lex.index')
-				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
+			->with( ['flash' => ['message' => "You are not permitted to create currencies", 'level' =>  "danger"] ] );		
 	}
 
 	/**
@@ -92,13 +87,13 @@ class CurrencyController extends Controller
 	 */
 	public function show($id)
 	{
-		if ( ! $this->checkAccess( config('lex.acl.show') ) ) {
-			return view( config('lex.views.unauthorized'), [ 'message' => 'view existing currency types' ]);
+		if ( $this->checkAccess( config('lex.acl.show') ) ) {
+			$resource = Currency::findOrFail($id);
+			$show = "1";
+			return view( config('lex.views.edit'), compact('resource', 'show') );
 		}
 
-		$resource = Currency::findOrFail($id);
-		$show = "1";
-		return view( config('lex.views.edit'), compact('resource', 'show') );
+		return view( $this->unauthorized, ['message' => 'view existing currency types'] );
 	}
 
 	/**
@@ -109,13 +104,13 @@ class CurrencyController extends Controller
 	 */
 	public function edit($id)
 	{
-		if ( ! $this->checkAccess( config('lex.acl.edit') ) ) {
-			return view( config('lex.views.unauthorized'), [ 'message' => 'edit existing currency types' ]);
+		if ( $this->checkAccess( config('lex.acl.edit') ) ) {
+			$resource = Currency::findOrFail($id);
+			$show = "0";
+			return view( config('lex.views.edit'), compact('resource', 'show') );
 		}
 
-		$resource = Currency::findOrFail($id);
-		$show = "0";
-		return view( config('lex.views.edit'), compact('resource', 'show') );
+		return view( $this->unauthorized, [ 'message' => 'edit existing currency types' ] );		
 	}
 
 	/**
@@ -126,21 +121,15 @@ class CurrencyController extends Controller
 	 */
 	public function update($id, UpdateRequest $request)
 	{
-		if ( ! $this->checkAccess( config('lex.acl.edit') ) ) {
-			$level = "danger";
-			$message = "You are not permitted to edit currencies.";
-			
+		if ( $this->checkAccess( config('lex.acl.edit') ) ) {
+			$currency = Currency::findOrFail($id);
+			$currency->update( $request->all() );
 			return redirect()->route('lex.index')
-					->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
+				->with( ['flash' => ['message' =>"<i class='fa fa-check-square-o fa-1x'></i> Success! Currency edited.", 'level' =>  "success"] ] );
 		}
-
-		$currency = Currency::findOrFail($id);		
-		$currency->update($request->all());
-		$level = "success";
-		$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency edited.";
 		
 		return redirect()->route('lex.index')
-				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
+			->with( ['flash' => ['message' => "You are not permitted to edit currencies.", 'level' => "danger"] ] );
 	}
 
 	/**
@@ -151,19 +140,14 @@ class CurrencyController extends Controller
 	 */
 	public function destroy($id)
 	{
-		if ( ! $this->checkAccess( config('lex.acl.destroy') ) ) {
-			$level = "danger";
-			$message = " You are not permitted to destroy currencies.";
+		if ( $this->checkAccess( config('lex.acl.destroy') ) ) {
+			Currency::destroy($id);
 			return redirect()->route('lex.index')
-				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
+				->with( ['flash' => ['message' => "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency deleted.", 'level' => "warning"] ] );
 		}
 
-		Currency::destroy($id);
-		$level = "warning";
-		$message = "<i class='fa fa-check-square-o fa-1x'></i> Success! Currency deleted.";
-
 		return redirect()->route('lex.index')
-				->with( ['flash' => ['message' => $message, 'level' =>  $level] ] );
+			->with( ['flash' => ['message' => "You are not permitted to destroy currencies.", 'level' => "danger"] ] );
 	}
 
 }
