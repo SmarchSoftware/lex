@@ -177,6 +177,15 @@
         <div class="col-sm-offset-3 col-sm-3">
            @if ($show == '0')
             {!! Form::submit('Edit', ['class' => 'btn btn-primary form-control']) !!}
+            </div>
+
+            <div class="col-sm-offset-2 col-sm-3">
+            {!! Form::open(['method'=>'delete','route'=> ['lex.destroy',$resource->id] ]) !!}
+              <button type="submit" class="btn btn-danger">
+                <i class="fa fa-trash-o fa-lg"></i> Delete
+              </button>
+            {!! Form::close() !!}
+            </div>
            @else
                 <i class="fa fa-pencil"></i> 
                 <a href="{{ route('lex.edit', $resource->id) }}" title="Edit '{{ $resource->name }}'">Edit '{{ $resource->name }}'</a>
