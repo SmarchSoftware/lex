@@ -21,7 +21,7 @@ class LexServiceProvider extends ServiceProvider
 
         // Publishes package files
         $this->publishes([
-            __DIR__.'/Config/Lex.php' => config_path('lex.php')
+            __DIR__.'/Config/lex.php' => config_path('lex.php')
         ], 'config');
 
         $this->publishes([
@@ -29,7 +29,7 @@ class LexServiceProvider extends ServiceProvider
         ], 'views');
 
         // Merge config files
-        $this->mergeConfigFrom(__DIR__.'/Config/Lex.php','lex');
+        $this->mergeConfigFrom(__DIR__.'/Config/lex.php','lex');
 
         // migrations folder
         $this->publishes([
