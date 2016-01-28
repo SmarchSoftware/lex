@@ -20,7 +20,7 @@ class CreateCurrencyUserTable extends Migration
                 $table->integer('character_id')->unsigned()->index();
             }
             $table->integer('currency_id')->unsigned()->index();
-            $table->integer('currency_quantity')->unsigned()->index();
+            $table->integer('quantity')->unsigned()->index();
             $table->timestamps();
         });
     }

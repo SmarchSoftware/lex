@@ -4,6 +4,8 @@ namespace Smarch\Lex\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Smarch\Lex\Models\Currency;
+
 class Currency extends Model
 {
 
@@ -90,4 +92,15 @@ class Currency extends Model
     {
         return $query->where('type', $type);
     }
+
+    /**
+     * The users that have the currency.
+     */
+    public function users()
+    {
+        return $this->belongsToMany('Smarch\Lex\Models\User')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
+    }
+    
 }
