@@ -18,9 +18,6 @@ class CurrencyController extends Controller
 
 	use SmarchACLTrait;
 
-	var $acl = false;
-	var $driver = 'laravel';
-
 	/**
 	 * constructor
 	 * 

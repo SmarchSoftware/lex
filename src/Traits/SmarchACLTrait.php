@@ -4,6 +4,9 @@ namespace Smarch\Lex\Traits;
 
 trait SmarchACLTrait {
 
+	var $acl = false;
+	var $driver = 'laravel';
+
 	/**
 	 * Will check user access depending on the driver being used.
 	 * Defaults to using laravel Auth Guard driver
