@@ -11,12 +11,12 @@ use Carbon\Carbon;
 use Smarch\Lex\Models\Currency;
 use Smarch\Lex\Requests\StoreRequest;
 use Smarch\Lex\Requests\UpdateRequest;
-use Smarch\Lex\Traits\SmarchACLTrait;
+use Smarch\Omac\OmacTrait;
 
 class CurrencyController extends Controller
 {
 
-	use SmarchACLTrait;
+	use OmacTrait;
 
 	/**
 	 * constructor
