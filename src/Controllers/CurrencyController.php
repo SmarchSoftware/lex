@@ -23,6 +23,7 @@ class CurrencyController extends Controller
 	 * 
 	 * @param boolean acl Whether or not ACL is enabled
 	 * @param string $driver Which ACL package to use
+	 * @param string $unauthorized View partial to use for denied access
 	 */
 	public function __construct() {
 		$this->acl = config('lex.acl.enable');
