@@ -25,8 +25,8 @@ class UpdateRequest extends Request
     public function rules()
     {
         return [
-            'slug' => 'required|unique:currencies,slug,'.$this->get('id').'|max:255|min:4',
-            'name' => 'required|unique:currencies,name,'.$this->get('id').'|max:32|min:4',
+            'slug' => 'required|unique:currencies,slug,'.$this->lex.'|max:255|min:4',
+            'name' => 'required|unique:currencies,name,'.$this->lex.'|max:32|min:4',
             'base_value' => 'required|min:1|numeric',
             'convertible' => 'required|boolean',
             'tradeable' => 'required|boolean',
