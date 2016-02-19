@@ -5,7 +5,7 @@
     <h1><i class="fa fa-money fa-fw"></i> {{ config('lex.title', 'Lex Currency') }}
     <div class="btn-group pull-right" role="group" aria-label="..."> 
       
-        <a href="{{ route('lex.create') }}">
+        <a href="{{ route( config('lex.route.as') . 'create') }}">
         <button type="button" class="btn btn-info">
           <i class="fa fa-plus fa-fw"></i> 
           <span class="hidden-xs hidden-sm">Add New Currency</span>
@@ -39,19 +39,25 @@
                 </td>
                 
                 <td>
-                    <a href="{{ route('lex.show', $item->id) }}">
+                    <a href="{{ route( config('lex.route.as') . 'show', $item->id) }}">
                       <button type="button" class="btn btn-primary btn-xs">
                       <i class="fa fa-search fa-fw"></i> 
                       <span class="hidden-xs hidden-sm">View</span>
                       </button></a>
 
-                    <a href="{{ route('lex.edit', $item->id) }}">
+                    <a href="{{ route( config('lex.route.as') . 'edit', $item->id) }}">
                       <button type="button" class="btn btn-default btn-xs">
                       <i class="fa fa-pencil fa-fw"></i> 
                       <span class="hidden-xs hidden-sm">Edit</span>
                       </button></a>
 
-                    {!! Form::open(['method'=>'delete','route'=> ['lex.destroy',$item->id], 'style' => 'display:inline']) !!}
+                    <a href="{{ route( config('lex.route.as') . 'cumulative', $item->id) }}">
+                      <button type="button" class="btn btn-success btn-xs">
+                      <i class="fa fa-usd fa-fw"></i> 
+                      <span class="hidden-xs hidden-sm">Totals</span>
+                      </button></a>
+
+                    {!! Form::open(['method'=>'delete','route'=> [ config('lex.route.as') . 'destroy',$item->id], 'style' => 'display:inline']) !!}
                       <button type="submit" class="btn btn-danger btn-xs">
                       <i class="fa fa-trash-o fa-lg"></i> 
                       <span class="hidden-xs hidden-sm">Delete</span>

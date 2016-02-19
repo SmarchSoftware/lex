@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use Smarch\Lex\Models\Currency;
+use Smarch\Lex\Models\User as User;
 use Smarch\Lex\Requests\StoreRequest;
 use Smarch\Lex\Requests\UpdateRequest;
 use Smarch\Omac\OmacTrait;
@@ -146,6 +147,23 @@ class CurrencyController extends Controller
 
 		return redirect()->route('lex.index')
 			->with( ['flash' => ['message' => "You are not permitted to destroy currencies.", 'level' => "danger"] ] );
+	}
+
+	/**
+	 * Display the specified resource cumulative totals.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function showCumulative($id)
+	{
+		if ( $this->checkAccess( config('lex.acl.show') ) ) {
+			$resource = Currency::findOrFail($id);
+			$users = User::orderBy('name')->get();
+			return view( config('lex.views.cumulative'), compact('resource', 'users') );
+		}
+
+		return view( $this->unauthorized, ['message' => 'view currency cumulative totals'] );
 	}
 
 }

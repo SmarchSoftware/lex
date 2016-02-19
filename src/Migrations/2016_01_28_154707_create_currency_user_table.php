@@ -18,6 +18,7 @@ class CreateCurrencyUserTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             if (Schema::hasTable('characters')) {
                 $table->integer('character_id')->unsigned()->index();
+                $table->foreign('character_id')->references('id')->on('characters')->onDelete('cascade');
             }
             $table->integer('currency_id')->unsigned()->index();
             $table->integer('quantity')->unsigned()->index();

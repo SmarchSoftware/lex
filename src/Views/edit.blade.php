@@ -5,7 +5,7 @@
     <h1>{{ ( ($show == '0') ? 'Edit' : 'Viewing' ) }}  {{ $resource->name }}</h1>
     <hr/>
 
-    {!! Form::model($resource, ['method' => 'PATCH', 'route' => [ 'lex.update', $resource->id ], 'class' => 'form-horizontal']) !!}
+    {!! Form::model($resource, ['method' => 'PATCH', 'route' => [ config('lex.route.as') . 'update', $resource->id ], 'class' => 'form-horizontal']) !!}
 
     <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
         {!! Form::label('name', 'Name: ', ['class' => 'col-sm-3 control-label']) !!}
@@ -178,7 +178,7 @@
             {!! Form::submit('Edit', ['class' => 'btn btn-primary form-control']) !!}
            @else
                 <i class="fa fa-pencil"></i> 
-                <a href="{{ route('lex.edit', $resource->id) }}" title="Edit '{{ $resource->name }}'">Edit '{{ $resource->name }}'</a>
+                <a href="{{ route( config('lex.route.as') . 'edit', $resource->id) }}" title="Edit '{{ $resource->name }}'">Edit '{{ $resource->name }}'</a>
            @endif
         </div>    
     </div>

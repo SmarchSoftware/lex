@@ -42,7 +42,8 @@ return [
         'create'        => 'lex::create',
         'show'          => 'lex::edit',
         'edit'          => 'lex::edit',
-        'unauthorized'  => 'lex::unauthorized'
+        'unauthorized'  => 'lex::unauthorized',
+        'cumulative'    => 'lex::cumulative'
     ],
 
     /*
