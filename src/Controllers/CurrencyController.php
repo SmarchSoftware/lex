@@ -160,10 +160,35 @@ class CurrencyController extends Controller
 		if ( $this->checkAccess( config('lex.acl.show') ) ) {
 			$resource = Currency::findOrFail($id);
 			$users = User::orderBy('name')->get();
-			return view( config('lex.views.cumulative'), compact('resource', 'users') );
+			$total = Currency::cumulative($id);
+			return view( config('lex.views.cumulative'), compact('resource', 'users', 'total') );
 		}
 
 		return view( $this->unauthorized, ['message' => 'view currency cumulative totals'] );
+	}
+
+	/**
+	 * Update the specified resource cumulative totals.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updateCumulative($id, Request $request)
+	{
+		if ( $this->checkAccess( config('lex.acl.update_cumulative') ) ) {
+			\DB::table('currency_user')
+				->where('currency_id',$id)
+				->where('user_id', $request->get('user_id') )
+				->increment('quantity', $request->get('quantity') );
+			
+
+        	return redirect()->route('lex.index')
+				->with( ['flash' => ['message' =>"<i class='fa fa-check-square-o fa-1x'></i> Success! Currency totals updated.", 'level' =>  "success"] ] );
+			
+		}
+		
+		return redirect()->route('lex.index')
+			->with( ['flash' => ['message' => "You are not permitted to update currency totals.", 'level' => "danger"] ] );
 	}
 
 }

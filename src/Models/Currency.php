@@ -99,8 +99,13 @@ class Currency extends Model
     public function users()
     {
         return $this->belongsToMany('Smarch\Lex\Models\User')
+                    ->orderBy('name')
                     ->withPivot('quantity')
                     ->withTimestamps();
+    }
+
+    public static function cumulative($id=1) {
+        return \DB::table('currency_user')->where('currency_id', $id)->sum('quantity');
     }
     
 }
