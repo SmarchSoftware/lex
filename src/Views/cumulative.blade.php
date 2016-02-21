@@ -7,7 +7,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="panel panel-primary">
         <div class="panel-heading clearfix">
-          <h3 class="panel-title"><i class="fa fa-users fa-lg"></i> Users with {{ $resource->name }} <small class="text-muted">{{$resource->users->count()}} accounts having a total of {{$total}} {{$resource->name}}</small></h3>
+          <h3 class="panel-title"><i class="fa fa-users fa-lg"></i> Users with {{ $resource->name }} <small class="text-muted">{{$resource->users->count()}} accounts having a total of {{$total}} {{ str_plural($resource->name) }} (Base value worth: {{$value}})</small></h3>
         </div>
         
         <div class="panel-body">
@@ -39,7 +39,7 @@
           
           <hr />
           
-          <div  style="overflow:auto; height:200px">
+          <div  style="overflow:auto; max-height:200px">
           @forelse($users->chunk(6) as $c)
             @foreach ($c as $u)
             <div class="col-md-2 col-sm-3 col-xs-4">

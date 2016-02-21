@@ -5,6 +5,8 @@ namespace Smarch\Lex\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use DB;
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -161,7 +163,8 @@ class CurrencyController extends Controller
 			$resource = Currency::findOrFail($id);
 			$users = User::orderBy('name')->get();
 			$total = Currency::cumulative($id);
-			return view( config('lex.views.cumulative'), compact('resource', 'users', 'total') );
+			$value = \Lex::convertToBase($resource->name,$total);
+			return view( config('lex.views.cumulative'), compact('resource', 'users', 'total', 'value') );
 		}
 
 		return view( $this->unauthorized, ['message' => 'view currency cumulative totals'] );
@@ -176,11 +179,17 @@ class CurrencyController extends Controller
 	public function updateCumulative($id, Request $request)
 	{
 		if ( $this->checkAccess( config('lex.acl.update_cumulative') ) ) {
-			\DB::table('currency_user')
-				->where('currency_id',$id)
-				->where('user_id', $request->get('user_id') )
-				->increment('quantity', $request->get('quantity') );
-			
+			$quantity = $request->get('quantity');
+			$data = '';
+			foreach($request->get('user_id') as $u) {
+				$data .= '('.$u.','. $id.', GREATEST('. $quantity.',0) ), ';
+			}
+
+			$query = 'INSERT INTO currency_user (user_id, currency_id, quantity) VALUES '.substr($data,0,-2).' ON DUPLICATE KEY UPDATE quantity = GREATEST(`quantity` + '.$quantity.',0)';
+			DB::statement($query);
+
+			// subquery to delete any rows left with zero
+			DB::table('currency_user')->where('quantity',0)->delete();
 
         	return redirect()->route('lex.index')
 				->with( ['flash' => ['message' =>"<i class='fa fa-check-square-o fa-1x'></i> Success! Currency totals updated.", 'level' =>  "success"] ] );
