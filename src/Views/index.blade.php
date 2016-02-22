@@ -17,7 +17,7 @@
     <div class="table">
         <table class="table table-hover">
         <caption>
-          Your base value is your lowest, available currency unless specifically specified below with this icon <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i>.
+          Your base value is your lowest, available currency (unless specifically specified as "base", and available, by you). This currency will be specified below with this icon <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i>.
         </caption>
             <thead>
                 <tr>
@@ -29,8 +29,9 @@
               @forelse($currencies as $item)
                <tr>
                 <td>{{ $item->name }}
-                @if ($item->slug == 'base')
-                      <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i> 
+                @if ( ( $item->slug == 'base' || empty($base_set) ) && $item->available == 1 )
+                    @define($base_set = 1)
+                    <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i> 
                 @endif
                 </td>
                 

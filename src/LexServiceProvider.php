@@ -3,6 +3,7 @@
 namespace Smarch\Lex;
 
 use Auth;
+use Blade;
 use Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,6 +37,8 @@ class LexServiceProvider extends ServiceProvider
             __DIR__.'/migrations' => $this->app->databasePath().'/migrations'
         ], 'migrations');
 
+        // register blade directives
+        $this->registerBladeDirectives();
     }
 
     /**
@@ -53,6 +56,20 @@ class LexServiceProvider extends ServiceProvider
         // Register it
         $this->app->bind('lex', function() {
              return new \Smarch\Lex\Lex;
+        });
+    }
+
+    /**
+     * Register blade directive to define var in blade.
+     *
+     *  @define $var = whatever.
+     * 
+     * @return void
+     */
+    public function registerBladeDirectives ()
+    {
+        Blade::directive('define', function($expression) {
+            return "<?php {$expression}; ?>";
         });
     }
 
