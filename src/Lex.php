@@ -26,8 +26,8 @@ class Lex extends Currency
             return $to_value;
         }
         
-		return ( $from_value / $to_value ) * $quantity;
-	}
+        return ( $from_value / $to_value ) * $quantity;
+    }
 
 
     /**
@@ -36,15 +36,15 @@ class Lex extends Currency
      * @param  string $quantity
      * @return conversion
      */
-	public function convertToBase($from, $quantity = '1')
-	{
-		return $this->convert($from, $this->getBaseCurrency()->id, $quantity);
-	}
+    public function convertToBase($from, $quantity = '1')
+    {
+        return $this->convert($from, $this->getBaseCurrency()->id, $quantity);
+    }
     
 
     /**
      * get the base currency object
-     * @return object Base Currency
+     * @return object $base
      */
     public function getBaseCurrency() 
     {
