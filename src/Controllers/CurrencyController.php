@@ -14,6 +14,7 @@ use Smarch\Lex\Models\Currency;
 use Smarch\Lex\Models\User as User;
 use Smarch\Lex\Requests\StoreRequest;
 use Smarch\Lex\Requests\UpdateRequest;
+use Smarch\Lex\Requests\CumulativeRequest;
 use Smarch\Omac\OmacTrait;
 
 class CurrencyController extends Controller
@@ -176,7 +177,7 @@ class CurrencyController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function updateCumulative($id, Request $request)
+	public function updateCumulative($id, CumulativeRequest $request)
 	{
 		if ( $this->checkAccess( config('lex.acl.update_cumulative') ) ) {
 			$quantity = $request->get('quantity');

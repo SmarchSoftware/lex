@@ -25,8 +25,8 @@ class Lex extends Currency
         if ( is_string($to_value) ) {
             return $to_value;
         }
-
-		return ( $this->getValue($from) / $this->getValue($to) ) * $quantity;
+        
+		return ( $from_value / $to_value ) * $quantity;
 	}
 
 
