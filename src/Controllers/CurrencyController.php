@@ -16,6 +16,7 @@ use Smarch\Lex\Requests\StoreRequest;
 use Smarch\Lex\Requests\UpdateRequest;
 use Smarch\Lex\Requests\CumulativeRequest;
 use Smarch\Omac\OmacTrait;
+use Lex;
 
 class CurrencyController extends Controller
 {
@@ -164,8 +165,9 @@ class CurrencyController extends Controller
 			$resource = Currency::findOrFail($id);
 			$users = User::orderBy('name')->get();
 			$total = Currency::cumulative($id);
-			$value = \Lex::convertToBase($resource->name,$total);
-			return view( config('lex.views.cumulative'), compact('resource', 'users', 'total', 'value') );
+			$value = Lex::convertToBase($resource->name,$total);
+			$base = Lex::getBaseCurrency();
+			return view( config('lex.views.cumulative'), compact('resource', 'users', 'total', 'value', 'base') );
 		}
 
 		return view( $this->unauthorized, ['message' => 'view currency cumulative totals'] );

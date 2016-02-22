@@ -38,13 +38,23 @@ class Lex extends Currency
      */
 	public function convertToBase($from, $quantity = '1')
 	{
+		return $this->convert($from, $this->getBaseCurrency()->id, $quantity);
+	}
+    
+
+    /**
+     * get the base currency object
+     * @return object Base Currency
+     */
+    public function getBaseCurrency() 
+    {
         // check for defined base slug first, if not grab lowest valued.
-        if (! $to = Currency::where('slug','base')->where('available',1)->first()) {
-    		$to = Currency::orderBy('base_value','asc')->where('available',1)->first();
+        if (! $base = Currency::where('slug','base')->where('available',1)->first()) {
+            $base = Currency::orderBy('base_value','asc')->where('available',1)->first();
         }
 
-		return $this->convert($from, $to->id, $quantity);
-	}
+        return $base;
+    }
 
 
     /**
