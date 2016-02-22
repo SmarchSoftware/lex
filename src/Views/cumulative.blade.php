@@ -7,19 +7,42 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="panel panel-primary">
         <div class="panel-heading clearfix">
-          <h3 class="panel-title"><i class="fa fa-users fa-lg"></i> Users with {{ $resource->name }} <small class="text-muted">{{$resource->users->count()}} accounts having a total of {{$total}} {{ str_plural($resource->name) }} (Base value worth: {{ number_format($value)}} {{str_plural($base->name)}})</small></h3>
+          <h3 class="panel-title"><i class="fa fa-users fa-lg"></i> Users with {{ $resource->name }}
+          </h3>
         </div>
         
         <div class="panel-body">
-          @forelse($resource->users->chunk(4) as $chunk)
-            @foreach($chunk as $c)
-            <div class="col-md-3 col-sm-3 col-xs-4">
-            {{ $c->name }} <span class="text-muted">({{ $c->pivot->quantity }})</span>
+          <div>
+            <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#collapseAccounts" aria-expanded="false" aria-controls="collapseAccounts">
+            <i class="fa fa-users"></i> View Accounts
+            </button>
+            <span class="lead">
+            {{$resource->users->count()}} of {{$users->count()}} user accounts have a total of {{ number_format($total) }} {{ str_plural($resource->name) }}</span>
+            <br /><span class="text-muted">Base value worth: {{ number_format($value)}} {{str_plural($base->name)}}</span>
+          </div>
+
+          <div class="panel-collapse collapse" id="collapseAccounts">
+
+            <hr />
+
+            <div style="overflow:auto; max-height:250px">
+            @forelse($resource->users->chunk(4) as $chunk)
+              @foreach($chunk as $c)
+              <div class="col-md-3 col-sm-3 col-xs-4">
+              {{ $c->name }} <span class="text-muted">({{ $c->pivot->quantity }})</span>
+              </div>
+              @endforeach
+            @empty
+              <span class="text-warning"><i class="fa fa-warning text-warning"></i> This currency is not held by any one.</span>
+            @endforelse
             </div>
-            @endforeach
-          @empty
-            <span class="text-warning"><i class="fa fa-warning text-warning"></i> This currency is not held by any one.</span>
-          @endforelse
+
+            <hr />
+
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAccounts" aria-expanded="false" aria-controls="collapseAccounts">
+              <i class="fa fa-times"></i> Close
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -36,15 +59,13 @@
   </div>
   @endif
 
-
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="panel panel-success">
         
         <div class="panel-body">
           {!! Form::model($resource, [ 'route' => [ config('lex.route.as') . 'cumulative', $resource->id ], 'class' => 'form-horizontal']) !!}
-          
-          
+                    
           <fieldset>
           <legend>Assign
           <input type="number" placeholder="1" value=1 name="quantity"> <strong>{{ str_plural($resource->name) }}</strong> to each of the checked users below. <br />

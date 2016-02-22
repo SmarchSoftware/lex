@@ -188,14 +188,21 @@ class CurrencyController extends Controller
 				$data .= '('.$u.','. $id.', GREATEST('. $quantity.',0) ), ';
 			}
 
-			$query = 'INSERT INTO currency_user (user_id, currency_id, quantity) VALUES '.substr($data,0,-2).' ON DUPLICATE KEY UPDATE quantity = GREATEST(`quantity` + '.$quantity.',0)';
-			DB::statement($query);
+			try {
+				$query = 'INSERT INTO currency_user (user_id, currency_id, quantity) VALUES '.substr($data,0,-2).' ON DUPLICATE KEY UPDATE quantity = GREATEST(`quantity` + '.$quantity.',0)';
+				DB::statement($query);
 
-			// subquery to delete any rows left with zero
-			DB::table('currency_user')->where('quantity',0)->delete();
+				// subquery to delete any rows left with zero
+				DB::table('currency_user')->where('quantity',0)->delete();
 
-        	return redirect()->route('lex.index')
-				->with( ['flash' => ['message' =>"<i class='fa fa-check-square-o fa-1x'></i> Success! Currency totals updated.", 'level' =>  "success"] ] );
+		        return redirect()->route('lex.index')
+					->with( ['flash' => ['message' =>"<i class='fa fa-check-square-o fa-1x'></i> Success! Currency totals updated.", 'level' =>  "success"] ] );
+
+			} catch (\Exception $e) {
+
+				return redirect()->back()->withErrors('msg',$e->getMessage());
+
+			}
 			
 		}
 		
