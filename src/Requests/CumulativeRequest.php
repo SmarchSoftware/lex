@@ -32,7 +32,7 @@ class CumulativeRequest extends Request
     public function rules()
     {
         $rules = [
-            'quantity' => 'required|integer',
+            'quantity' => 'required|numeric',
             'user_id'  => 'required'
         ];
 
