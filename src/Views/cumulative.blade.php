@@ -18,8 +18,10 @@
             </button>
             <span class="lead">
             {{$resource->users->count()}} of {{$users->count()}} user accounts have a total of {{ $total }} {{ ($total == 1) ? $resource->name : str_plural($resource->name) }}</span>
-            <br /><span class="text-muted">Base value worth: {{ $value }} {{ ($value == 1) ? $base->name : str_plural($base->name)}}<br />
-            Common value worth: {{ $common_value }} {{ ($common_value == 1) ? $common->name : str_plural($common->name)}}
+            <br /><span class="text-muted">
+            <i class="fa fa-money"></i> Base value worth: {{ $value }} {{ ($value == 1) ? $base->name : str_plural($base->name)}}
+            <br />
+            <i class="fa fa-leaf"></i> Common value worth: {{ $common_value }} {{ ($common_value == 1) ? $common->name : str_plural($common->name)}}
             </span>
           </div>
 
