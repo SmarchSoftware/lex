@@ -161,13 +161,18 @@ class CurrencyController extends Controller
 	 */
 	public function showCumulative($id)
 	{
-		if ( $this->checkAccess( config('lex.acl.show') ) ) {
+		if ( $this->checkAccess( config('lex.acl.cume_view') ) ) {
 			$resource = Currency::findOrFail($id);
 			$users = User::orderBy('name')->get();
 			$total = Currency::cumulative($id);
+			$total = is_string($total) ? $total : number_format($total);
 			$value = Lex::convertToBase($resource->name,$total);
+			$value = is_string($value) ? substr($value,0,-1) .' to ' : number_format($value);
+			$common_value = Lex::convertToCommon($resource->name,$total);
+			$common_value = is_string($common_value) ? substr($common_value,0,-1) .' to ' : number_format($common_value,2);
 			$base = Lex::getBaseCurrency();
-			return view( config('lex.views.cumulative'), compact('resource', 'users', 'total', 'value', 'base') );
+			$common = Lex::getCommonCurrency();
+			return view( config('lex.views.cumulative'), compact('resource', 'users', 'total', 'value', 'base', 'common_value', 'common') );
 		}
 
 		return view( $this->unauthorized, ['message' => 'view currency cumulative totals'] );
@@ -181,28 +186,32 @@ class CurrencyController extends Controller
 	 */
 	public function updateCumulative($id, CumulativeRequest $request)
 	{
-		if ( $this->checkAccess( config('lex.acl.update_cumulative') ) ) {
+		if ( $this->checkAccess( config('lex.acl.cume_edit') ) ) {
 			$quantity = $request->get('quantity');
 			$data = '';
 			foreach($request->get('user_id') as $u) {
 				$data .= '('.$u.','. $id.', GREATEST('. $quantity.',0) ), ';
 			}
+			$data = substr($data,0,-2);
 
-			try {
-				$query = 'INSERT INTO currency_user (user_id, currency_id, quantity) VALUES '.substr($data,0,-2).' ON DUPLICATE KEY UPDATE quantity = GREATEST(`quantity` + '.$quantity.',0)';
-				DB::statement($query);
+			$query = "INSERT INTO currency_user (user_id, currency_id, quantity) VALUES $data ON DUPLICATE KEY UPDATE quantity = GREATEST(`quantity` + $quantity,0)";
+			DB::statement($query);
 
-				// subquery to delete any rows left with zero
-				DB::table('currency_user')->where('quantity',0)->delete();
+			if ($warning = DB::select("SHOW WARNINGS") ) {
 
-		        return redirect()->route('lex.index')
-					->with( ['flash' => ['message' =>"<i class='fa fa-check-square-o fa-1x'></i> Success! Currency totals updated.", 'level' =>  "success"] ] );
+				$msg = ($warning[0]->Code == 1264) ? "That value exceeds the maximum for the 'quantity' field for one or more users."
+					: 'Mysql Warning #'.$warning[0]->Code.' "'.$warning[0]->Message.'"';
 
-			} catch (\Exception $e) {
+				return redirect()->back()->withErrors( $msg )->withInput();
 
-				return redirect()->back()->withErrors('msg',$e->getMessage());
+			} 
 
-			}
+			// subquery to delete any rows left with zero
+			DB::table('currency_user')->where('quantity',0)->delete();
+
+        	return redirect()->route('lex.index')
+				->with( ['flash' => ['message' =>"<i class='fa fa-check-square-o fa-1x'></i> Success! Currency totals updated.", 'level' =>  "success"] ] );
+
 			
 		}
 		

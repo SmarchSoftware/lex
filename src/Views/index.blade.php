@@ -17,7 +17,8 @@
     <div class="table">
         <table class="table table-hover">
         <caption>
-          Your base value is your lowest, available currency (unless specifically specified as "base", and available, by you). This currency will be specified below with this icon <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i>.
+          Your base value is your lowest, available currency (unless specifically specified as "base", and available, by you). This currency will be specified below with this icon <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i>. <br />
+          If you have a defined "common" currency (slug named "common") that is also available and convertible, it will be identifed as : <i class="fa fa-leaf text-warning" title="Identified as the common currency"></i>.
         </caption>
             <thead>
                 <tr>
@@ -32,6 +33,9 @@
                 @if ( ( $item->slug == 'base' || empty($base_set) ) && $item->available == 1 )
                     @define($base_set = 1)
                     <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i> 
+                @endif
+                @if ( $item->slug == 'common' && $item->available == 1 && $item->convertible == 1 )
+                    <i class="fa fa-leaf text-warning" title="Identified as common currency"></i> 
                 @endif
                 </td>
                 

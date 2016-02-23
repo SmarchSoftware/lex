@@ -97,7 +97,9 @@ return [
         'create'    => 'lex.create',
         'show'      => 'lex.show',
         'edit'      => 'lex.edit',
-        'destroy'   => 'lex.destroy'       
+        'destroy'   => 'lex.destroy',
+        'cume_view' => 'lex.cumulative.view',
+        'cume_edit' => 'lex.cumulative.edit'
     ],
 
 

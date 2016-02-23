@@ -17,8 +17,10 @@
             <i class="fa fa-users"></i> View Accounts
             </button>
             <span class="lead">
-            {{$resource->users->count()}} of {{$users->count()}} user accounts have a total of {{ number_format($total) }} {{ str_plural($resource->name) }}</span>
-            <br /><span class="text-muted">Base value worth: {{ number_format($value)}} {{str_plural($base->name)}}</span>
+            {{$resource->users->count()}} of {{$users->count()}} user accounts have a total of {{ $total }} {{ ($total == 1) ? $resource->name : str_plural($resource->name) }}</span>
+            <br /><span class="text-muted">Base value worth: {{ $value }} {{ ($value == 1) ? $base->name : str_plural($base->name)}}<br />
+            Common value worth: {{ $common_value }} {{ ($common_value == 1) ? $common->name : str_plural($common->name)}}
+            </span>
           </div>
 
           <div class="panel-collapse collapse" id="collapseAccounts">

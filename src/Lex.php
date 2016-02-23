@@ -58,6 +58,33 @@ class Lex extends Currency
 
 
     /**
+     * convert to base using slug or lowest available
+     * @param  string $from
+     * @param  string $quantity
+     * @return conversion
+     */
+    public function convertToCommon($from, $quantity = '1')
+    {
+        return $this->convert($from, $this->getCommonCurrency()->id, $quantity);
+    }
+    
+
+    /**
+     * get the common currency object
+     * @return object Common Currency
+     */
+    public function getCommonCurrency() 
+    {
+        // check for defined Common slug first, if not grab lowest valued.
+        if (! $common = Currency::where('slug','common')->where('available',1)->where('convertible',1)->first()) {
+            $common = Currency::orderBy('base_value','desc')->where('available',1)->where('convertible',1)->first();
+        }
+
+        return $common;
+    }
+
+
+    /**
      * Get value of currency
      * @return 
      */
