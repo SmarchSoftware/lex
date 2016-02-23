@@ -41,10 +41,10 @@ class CurrencyController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($orderBy = 'base_value')
 	{
 		if ( $this->checkAccess( config('lex.acl.index') ) ) {
-			$currencies = Currency::orderBy('base_value')->paginate( config('lex.pagination', 15) );
+			$currencies = Currency::orderBy($orderBy)->paginate( config('lex.pagination', 15) );
 			return view( config('lex.views.index'), compact('currencies') );
 		}
 		

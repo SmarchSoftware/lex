@@ -22,7 +22,13 @@
         </caption>
             <thead>
                 <tr>
-                    <th>Name</th><th class="hidden-xs hidden-sm">Base Value</th><th>Actions</th>
+                    <th>
+                      <a href="{{ route( config('lex.route.as') . 'orderby', 'name') }}">Name</a></th>
+
+                    <th class="hidden-xs hidden-sm">
+                        <a href="{{ route( config('lex.route.as') . 'index') }}">Base Value</a></th>
+                    <th class="hidden-xs hidden-sm">Cumulative total</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
@@ -41,6 +47,10 @@
                 
                 <td class="hidden-xs hidden-sm">
                     {{ $item->base_value }}
+                </td>
+                
+                <td class="hidden-xs hidden-sm">
+                    {{ $item->cumulative($item->id) }}
                 </td>
                 
                 <td>
