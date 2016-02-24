@@ -139,10 +139,21 @@ return [
         'middleware'=> (str_contains( app()->version(), '5.2') ? ['web'] : ['auth'])
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Implementation options
+    |--------------------------------------------------------------------------
+    |
+    | By default, lex will use your users table as its relationship. If you
+    | have a different table / key / pivot-field-name you want to use,
+    | specify it here.
+    |
+    */ 
     'characters' => [
-        'table' => 'users',
+        'table' => 'characters',
         'key'   => 'id',
-        'pivot' => 'user_id'
+        'pivot' => 'character_id'
     ]
 
 ];
