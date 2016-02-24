@@ -147,7 +147,9 @@ return [
     |
     | By default, lex will use your users table as its relationship. If you
     | have a different table / key / pivot-field-name you want to use,
-    | specify it here.
+    | specify it here. If you decide to change tables AFTER you have
+    | run the migrations you will need to delete the table and run
+    | the migration again. Or manually alter the pivot table.
     |
     */ 
     'characters' => [
