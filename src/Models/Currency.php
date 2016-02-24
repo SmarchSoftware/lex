@@ -102,7 +102,6 @@ class Currency extends Model
                     ->orderBy('name')
                     ->withPivot('quantity')
                     ->withTimestamps();
-        ddd($huh->toSql());
     }
 
     public static function cumulative($id=1) {
