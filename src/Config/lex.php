@@ -139,4 +139,9 @@ return [
         'middleware'=> (str_contains( app()->version(), '5.2') ? ['web'] : ['auth'])
     ],
 
+    'characters' => [
+        'table' => 'users',
+        'field' => 'id'
+    ]
+
 ];
