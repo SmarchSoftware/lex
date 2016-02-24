@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use Smarch\Lex\Models\Currency;
-use Smarch\Lex\Models\User as User;
+use Smarch\Lex\Models\Character;
 use Smarch\Lex\Requests\StoreRequest;
 use Smarch\Lex\Requests\UpdateRequest;
 use Smarch\Lex\Requests\CumulativeRequest;
@@ -163,7 +163,7 @@ class CurrencyController extends Controller
 	{
 		if ( $this->checkAccess( config('lex.acl.cume_view') ) ) {
 			$resource = Currency::findOrFail($id);
-			$users = User::orderBy('name')->get();
+			$characters = Character::orderBy('name')->get();
 			$total = Currency::cumulative($id);
 			$total = is_string($total) ? $total : number_format($total);
 			$value = Lex::convertToBase($resource->name,$total);
@@ -172,7 +172,7 @@ class CurrencyController extends Controller
 			$common_value = is_string($common_value) ? substr($common_value,0,-1) .' to ' : number_format($common_value,2);
 			$base = Lex::getBaseCurrency();
 			$common = Lex::getCommonCurrency();
-			return view( config('lex.views.cumulative'), compact('resource', 'users', 'total', 'value', 'base', 'common_value', 'common') );
+			return view( config('lex.views.cumulative'), compact('resource', 'characters', 'total', 'value', 'base', 'common_value', 'common') );
 		}
 
 		return view( $this->unauthorized, ['message' => 'view currency cumulative totals'] );
@@ -189,25 +189,34 @@ class CurrencyController extends Controller
 		if ( $this->checkAccess( config('lex.acl.cume_edit') ) ) {
 			$quantity = $request->get('quantity');
 			$data = '';
-			foreach($request->get('user_id') as $u) {
+			foreach($request->get('character_id') as $u) {
 				$data .= '('.$u.','. $id.', GREATEST('. $quantity.',0) ), ';
 			}
 			$data = substr($data,0,-2);
 
-			$query = "INSERT INTO currency_user (user_id, currency_id, quantity) VALUES $data ON DUPLICATE KEY UPDATE quantity = GREATEST(`quantity` + $quantity,0)";
-			DB::statement($query);
+			try {
+				$query = "INSERT INTO character_currency (".config('lex.characters.pivot').", currency_id, quantity) VALUES $data ON DUPLICATE KEY UPDATE quantity = GREATEST(`quantity` + $quantity,0)";
+				DB::statement($query);
 
-			if ($warning = DB::select("SHOW WARNINGS") ) {
+				if ($warning = DB::select("SHOW WARNINGS") ) {
 
-				$msg = ($warning[0]->Code == 1264) ? "That value exceeds the maximum for the 'quantity' field for one or more users."
-					: 'Mysql Warning #'.$warning[0]->Code.' "'.$warning[0]->Message.'"';
+					$msg = ($warning[0]->Code == 1264) ? "That quantity exceeds the maximum for the 'quantity' field for one or more characters."
+						: 'Mysql Warning #'.$warning[0]->Code.' "'.$warning[0]->Message.'"';
 
-				return redirect()->back()->withErrors( $msg )->withInput();
+					return redirect()->back()->withErrors( $msg )->withInput();
 
-			} 
+				} 
+			} catch (\Exception $except) {
+				$msg = $except->getMessage();
+				if ($except->getCode() == 22003) {
+					$msg = "That quantity exceeds the maximum for the 'quantity' field for one or more characters.";
+				}
+				return redirect()->back()
+				->with( ['flash' => ['message' =>"<i class='fa fa-close fa-1x'></i> ".$msg, 'level' =>  "danger"] ] );
+			}
 
 			// subquery to delete any rows left with zero
-			DB::table('currency_user')->where('quantity',0)->delete();
+			DB::table('character_currency')->where('quantity',0)->delete();
 
         	return redirect()->route('lex.index')
 				->with( ['flash' => ['message' =>"<i class='fa fa-check-square-o fa-1x'></i> Success! Currency totals updated.", 'level' =>  "success"] ] );

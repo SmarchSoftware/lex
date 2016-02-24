@@ -94,18 +94,19 @@ class Currency extends Model
     }
 
     /**
-     * The users that have the currency.
+     * The characters that have the currency.
      */
-    public function users()
+    public function characters()
     {
-        return $this->belongsToMany('Smarch\Lex\Models\User')
+        return $this->belongsToMany('Smarch\Lex\Models\Character', 'character_currency', 'currency_id', config('lex.characters.pivot'))
                     ->orderBy('name')
                     ->withPivot('quantity')
                     ->withTimestamps();
+        ddd($huh->toSql());
     }
 
     public static function cumulative($id=1) {
-        return \DB::table('currency_user')->where('currency_id', $id)->sum('quantity');
+        return \DB::table('character_currency')->where('currency_id', $id)->sum('quantity');
     }
     
 }

@@ -141,7 +141,8 @@ return [
 
     'characters' => [
         'table' => 'users',
-        'field' => 'id'
+        'key'   => 'id',
+        'pivot' => 'user_id'
     ]
 
 ];

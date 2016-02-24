@@ -64,7 +64,7 @@
                 {!! Form::radio('tradeable',0, null, ['class' => 'form-control'] ) !!} No
               </label>
 
-              <label data-toggle="tooltip" data-placement="right" class="btn btn-sm btn-default" title="Can be traded amongst users?">
+              <label data-toggle="tooltip" data-placement="right" class="btn btn-sm btn-default" title="Can be traded amongst characters?">
                 <i class="fa fa-lg fa-question-circle"></i>
               </label>
             </div>
@@ -84,7 +84,7 @@
                 {!! Form::radio('sellable',0, null, ['class' => 'form-control'] ) !!} No
               </label>
 
-              <label data-toggle="tooltip" data-placement="right" class="btn btn-sm btn-default" title="Can be sold amongst users?">
+              <label data-toggle="tooltip" data-placement="right" class="btn btn-sm btn-default" title="Can be sold amongst characters?">
                 <i class="fa fa-lg fa-question-circle"></i>
               </label>
             </div>
@@ -124,7 +124,7 @@
                 {!! Form::radio('discoverable',0, null, ['class' => 'form-control'] ) !!} No
               </label>
 
-              <label data-toggle="tooltip" data-placement="right" class="btn btn-sm btn-default" title="Can be discovered('found') by users with some sort of loot/search function(s)?">
+              <label data-toggle="tooltip" data-placement="right" class="btn btn-sm btn-default" title="Can be discovered('found') by characters with some sort of loot/search function(s)?">
                 <i class="fa fa-lg fa-question-circle"></i>
               </label>
             </div>

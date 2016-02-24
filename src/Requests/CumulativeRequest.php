@@ -7,7 +7,7 @@ use App\Http\Requests\Request;
 class CumulativeRequest extends Request
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if the character is authorized to make this request.
      *
      * @return bool
      */
@@ -20,7 +20,7 @@ class CumulativeRequest extends Request
     {
         return [
             'quantity.required' => 'You must specify a quantity to assign.',
-            'user_id.required' => 'You have to select at least one user.'
+            'character_id.required' => 'You have to select at least one character.'
         ];
     }
 
@@ -33,13 +33,13 @@ class CumulativeRequest extends Request
     {
         $rules = [
             'quantity' => 'required|numeric|between:-100000,100000',
-            'user_id'  => 'required'
+            'character_id'  => 'required'
         ];
 
-        if ($this->request->has('user_id')) {
-            foreach($this->request->get('user_id') as $key => $val)
+        if ($this->request->has('character_id')) {
+            foreach($this->request->get('character_id') as $key => $val)
             {
-                $rules['user_id.'.$key] = 'integer|min:1';
+                $rules['character_id.'.$key] = 'integer|min:1';
             }
         }
 

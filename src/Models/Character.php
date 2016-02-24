@@ -4,9 +4,11 @@ namespace Smarch\Lex\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Config;
+
 use Smarch\Lex\Models\Currency;
 
-class User extends Model
+class Character extends Model
 {
     /**
      * The database table used by the model.
@@ -14,6 +16,10 @@ class User extends Model
      * @var string
      */
     protected $table = 'users';
+
+    function __construct() {
+        $this->table = config('lex.characters.table');
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +36,7 @@ class User extends Model
     protected $hidden = ['password', 'remember_token'];
     
     /**
-     * The users that have the currencies.
+     * The characters that have the currencies.
      */
     public function currencies()
     {
