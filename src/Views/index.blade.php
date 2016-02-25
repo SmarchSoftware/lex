@@ -35,11 +35,13 @@
             <tbody>
               @forelse($currencies as $item)
                <tr>
-                <td>{{ $item->name }}
-                @if ( ( $item->slug == 'base' || empty($base_set) ) && $item->available == 1 )
+                <td>
+                {{ $item->name }}
+                @if ( $item->slug == 'base' && $item->available == 1 && $item->convertible == 1 )
                     @define($base_set = 1)
                     <i class="fa fa-lg fa-money text-success" title="Identified as base currency"></i> 
                 @endif
+
                 @if ( $item->slug == 'common' && $item->available == 1 && $item->convertible == 1 )
                     <i class="fa fa-leaf text-warning" title="Identified as common currency"></i> 
                 @endif

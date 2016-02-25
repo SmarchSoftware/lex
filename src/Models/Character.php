@@ -17,10 +17,6 @@ class Character extends Model
      */
     protected $table = 'users';
 
-    function __construct() {
-        $this->table = config('lex.characters.table');
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -34,6 +30,14 @@ class Character extends Model
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * class constructor
+     *
+     */
+    function __construct() {
+        $this->table = config('lex.characters.table');
+    }
     
     /**
      * The characters that have the currencies.
