@@ -18,7 +18,7 @@
             </button>
             <span class="lead">
 
-            {{$resource->characters()->count()}} of {{$characters->count()}} character accounts have a total of {{ $total }} {{ ($total == 1) ? $resource->name : str_plural($resource->name) }}</span>
+            {{$resource->characters->count()}} of {{$characters->count()}} character accounts have a total of {{ $total }} {{ ($total == 1) ? $resource->name : str_plural($resource->name) }}</span>
             <br /><span class="text-muted">
             <i class="fa fa-money"></i> Base value worth: {{ $value }} {{ ($value == 1) ? $base->name : str_plural($base->name)}}
             <br />
