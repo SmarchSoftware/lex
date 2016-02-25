@@ -14,8 +14,8 @@ class Lex extends Currency
      * @param  string $quantity
      * @return int
      */
-	public function convert($from, $to = '1', $quantity = '1')
-	{
+    public function convert($from, $to = '1', $quantity = '1')
+    {
         $from_value = $this->getValue($from);
         if ( is_string($from_value) ) {
             return $from_value;
