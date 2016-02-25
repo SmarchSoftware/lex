@@ -164,7 +164,7 @@ class CurrencyController extends Controller
 		if ( $this->checkAccess( config('lex.acl.cume_view') ) ) {
 			$resource = Currency::findOrFail($id);
 			$characters = Character::orderBy('name')->get();
-			$total = Currency::cumulative($id);
+			$total = $resource->cumulative();
 			$total = is_string($total) ? $total : number_format($total);
 			$value = Lex::convertToBase($resource->name,$total);
 			$value = is_string($value) ? substr($value,0,-1) .' to ' : number_format($value);

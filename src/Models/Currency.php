@@ -104,8 +104,8 @@ class Currency extends Model
                     ->withTimestamps();
     }
 
-    public static function cumulative($id=1) {
-        return \DB::table('character_currency')->where('currency_id', $id)->sum('quantity');
+    public function cumulative() {
+        return \DB::table('character_currency')->where('currency_id', $this->id)->sum('quantity');
     }
     
 }
