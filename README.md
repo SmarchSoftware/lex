@@ -19,7 +19,7 @@ If you have a need for in-game currency management this will be a package to hel
 
 ## Installation
 
-This page is intended for installation, please check out the wiki for more information about usage.
+This page is intended for installation, please check out the [wiki](https://github.com/SmarchSoftware/lex/wiki) for more information about usage.
 
 #### :black_square_button: Composer
 
