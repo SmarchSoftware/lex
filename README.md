@@ -47,7 +47,7 @@ Next you will need to add the Lex and Forms Facades to your config app file.
         */
         'Form'  => Collective\Html\FormFacade::class,	// required for Lex Forms
         'HTML'  => Collective\Html\HtmlFacade::class,	// required for Lex Forms
-        'Lex'	=> Smarch\Lex\LexFacade::class,
+        'Lex'	=> Smarch\Lex\Facades\LexFacade::class, // required for Lex:: 
 
 #### :card_index: Database Migrations / Seeds
 
