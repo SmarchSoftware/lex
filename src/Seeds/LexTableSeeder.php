@@ -41,7 +41,7 @@ class LexTableSeeder extends Seeder
             ],
             [ 
                 'name'          => 'Dollar',
-                'slug'          => 'buck',
+                'slug'          => 'common',
                 'base_value'    => '100',
                 'convertible'   => '1',
                 'tradeable'     => '1',

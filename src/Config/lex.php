@@ -153,9 +153,9 @@ return [
     |
     */ 
     'characters' => [
-        'table' => 'characters',
+        'table' => 'users',
         'key'   => 'id',
-        'pivot' => 'character_id'
+        'pivot' => 'user_id'
     ]
 
 ];
