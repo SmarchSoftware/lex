@@ -164,14 +164,17 @@ class CurrencyController extends Controller
 		if ( $this->checkAccess( config('lex.acl.cume_view') ) ) {
 			$resource = Currency::findOrFail($id);
 			$characters = Character::orderBy('name')->get();
-			$total = $resource->cumulative();
-			$total = is_string($total) ? $total : number_format($total);
-			$value = Lex::convertToBase($resource->name,$total);
-			$value = is_string($value) ? substr($value,0,-1) .' to ' : number_format($value);
-			$common_value = Lex::convertToCommon($resource->name,$total);
-			$common_value = is_string($common_value) ? substr($common_value,0,-1) .' to ' : number_format($common_value,2);
 			$base = Lex::getBaseCurrency();
 			$common = Lex::getCommonCurrency();
+
+			$total = is_string( $total = $resource->cumulative() ) ? $total : number_format($total);
+			
+			$value = is_string( $value = Lex::convert($resource, $base, $total) )
+						? substr($value,0,-1) .' to ' : number_format($value);
+			
+			$common_value = is_string( $common_value = Lex::convert($resource, $common, $total) )
+								? substr($common_value,0,-1) .' to ' : number_format($common_value,2);
+			
 			return view( config('lex.views.cumulative'), compact('resource', 'characters', 'total', 'value', 'base', 'common_value', 'common') );
 		}
 
