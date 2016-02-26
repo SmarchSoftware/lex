@@ -55,9 +55,12 @@ Next you will need to add the Lex and Forms Facades to your config app file.
 
 #### :card_index: Database Migrations / Seeds
 
-Next you need to add the migration to create the Lex Currency table to hold your game-currency information. From your command prompt (wherever you run your artisan commands) enter the following command <kbd>php artisan vendor:publish</kbd> and then <kbd>php artisan migrate</kbd>. This should properly create your necessary tables AND create the Lex config file *(which allows you to define any views / permissions you wish to change from their defaults)*.
+Next you need to add the migration to create the Lex Currency table to hold your game-currency information. From your command prompt (wherever you run your artisan commands) enter the following command <kbd>php artisan vendor:publish</kbd>. This will create the Lex config file *(which allows you to define any views / permissions you wish to change from their defaults)*.After you have done that, if you need to change/configure the table or id used for the users (characters), go to the Lex config file and make any changes you need. _(see [wiki](https://github.com/SmarchSoftware/lex/wiki/Configuration-Options#characters) for more information)_
 
     php artisan vendor:publish
+
+If you are fine with using the users table as your reference, or have adjusted the config file to your needs, then run the migration command <kbd>php artisan migrate</kbd>. This should properly create your necessary tables.
+
     php artisan migrate
 
 > :exclamation: Optional - DatabaseSeed
