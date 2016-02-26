@@ -99,12 +99,9 @@ class Lex extends Currency
      * @param  string/integer $cur Currency
      * @return 
      */
-	protected function getValue($resource, $check = true)
+	protected function getValue($res, $check = true)
 	{
-		if ( ! is_object($resource) ) {
-            $where = is_int($cur) ? 'id' : 'name';
-            $resource = Currency::where($where,$cur)->first();
-        }
+        $resource = $this->getObject($res);
 
         if ($resource->convertible == 0 && $check === true) {
             return str_plural($resource->name) . ' are not convertible.';
@@ -120,5 +117,20 @@ class Lex extends Currency
 
         return $resource->base_value;
 	}
+
+
+    /**
+     * convert requested item to resource
+     * @param  mixed $resource
+     * @return object Currency
+     */
+    protected function getObject($resource)
+    {
+        if ( is_object($resource) ) 
+            return $resource;
+
+        $where = is_int($resource) ? 'id' : 'name';
+        return Currency::where($where, $resource)->first();
+    }
 
 }
