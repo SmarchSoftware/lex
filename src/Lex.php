@@ -25,7 +25,7 @@ class Lex extends Currency
         if ( is_string($to_value) ) {
             return $to_value;
         }
-        
+
         return ( $from_value / $to_value ) * $quantity;
     }
 
@@ -99,24 +99,26 @@ class Lex extends Currency
      * @param  string/integer $cur Currency
      * @return 
      */
-	protected function getValue($cur, $check = true)
+	protected function getValue($resource, $check = true)
 	{
-		$where = is_int($cur) ? 'id' : 'name';
-		$res = Currency::where($where,$cur)->first();
-
-        if ($res->convertible == 0 && $check === true) {
-            return str_plural($res->name) . ' are not convertible.';
+		if ( ! is_object($resource) ) {
+            $where = is_int($cur) ? 'id' : 'name';
+            $resource = Currency::where($where,$cur)->first();
         }
 
-        if ($res->available == 0) {
-            return  str_plural($res->name) . ' are retired. (Valued at : '.$res->base_value.')';
+        if ($resource->convertible == 0 && $check === true) {
+            return str_plural($resource->name) . ' are not convertible.';
         }
 
-        if ($res->available == 2) {
-            return str_plural($res->name) . ' are devalued and worthless. (Originally : '.$res->base_value.')';
+        if ($resource->available == 0) {
+            return  str_plural($resource->name) . ' are retired. (Valued at : '.$resource->base_value.')';
         }
 
-        return $res->base_value;
+        if ($resource->available == 2) {
+            return str_plural($resource->name) . ' are devalued and worthless. (Originally : '.$resource->base_value.')';
+        }
+
+        return $resource->base_value;
 	}
 
 }
