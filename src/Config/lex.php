@@ -88,6 +88,8 @@ return [
     | 'show' is to view individual currencies.
     | 'edit' is to change existing currencies.
     | 'destroy' is to delete existing currencies.
+    | 'cume_view' is to view cumulative totals.
+    | 'cume_edit' is to update cumulative totals.
     |
     */  
    'acl' => [
