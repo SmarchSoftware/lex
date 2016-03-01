@@ -48,6 +48,9 @@ class LexServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Merge config files
+        $this->mergeConfigFrom(__DIR__.'/Config/lex.php','lex');
+
         // load our routes
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/routes.php';
@@ -55,7 +58,7 @@ class LexServiceProvider extends ServiceProvider
 
         // Register it
         $this->app->bind('lex', function() {
-             return new \Smarch\Lex\Lex;
+             return new Lex;
         });
     }
 
@@ -73,13 +76,4 @@ class LexServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['lex'];
-    }
 }
