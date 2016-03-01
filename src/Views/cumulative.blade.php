@@ -64,13 +64,11 @@
   </div>
   @endif
 
+  {!! Form::model($resource, [ 'route' => [ config('lex.route.as') . 'cumulative', $resource->id ], 'class' => 'form-horizontal']) !!}
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="panel panel-success">
-        
         <div class="panel-body">
-          {!! Form::model($resource, [ 'route' => [ config('lex.route.as') . 'cumulative', $resource->id ], 'class' => 'form-horizontal']) !!}
-                    
           <fieldset>
             <legend>Assign
               <input type="number" placeholder="1" value=1 name="quantity"> <strong>{{ str_plural($resource->name) }}</strong> to each of the checked characters below. <br />
@@ -79,7 +77,8 @@
             
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
-                <input type="checkbox" name="select_all" id="select_all" onChange="$('.checkbox_class').prop('checked', $(this).prop('checked'));"> Select All
+                <input type="checkbox" name="select_all" id="select_all" onChange="$('.checkbox_class').prop('checked', $(this).prop('checked'));"> <label for="select_all">Select All</label>
+                 <em> or select individual accounts : </em>
               </div>
             </div>
 
@@ -108,11 +107,10 @@
               {!! Form::submit('Update Character Currencies', ['class' => 'btn btn-success form-control']) !!}
             </div>    
           </div>
-
-          {!! Form::close() !!}
         </div>
       </div>
     </div>
   </div>
+  {!! Form::close() !!}
 
 @endsection
