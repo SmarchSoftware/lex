@@ -28,10 +28,7 @@ class LexServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/Views' => base_path('resources/views/smarch/lex')
         ], 'views');
-
-        // Merge config files
-        $this->mergeConfigFrom(__DIR__.'/Config/lex.php','lex');
-
+        
         // migrations folder
         $this->publishes([
             __DIR__.'/migrations' => $this->app->databasePath().'/migrations'
