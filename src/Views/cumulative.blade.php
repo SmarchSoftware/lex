@@ -77,12 +77,12 @@
             
             <div class="row bg-warning" style="padding: .7em; margin-bottom: .4em;">
               <div class="col-md-11 col-sm-11 col-xs-11">
-                <input type="checkbox" name="select_all" id="select_all" onChange="$('.checkbox_class').prop('checked', $(this).prop('checked'));" data-toggle="collapse" data-target="#collapseAllAccounts" aria-expanded="true" aria-controls="collapseAllAccounts"> <label for="select_all">Select All</label>
-                 <em> or select individual accounts : </em>
+                <input type="checkbox" checked="checked" name="select_all" id="select_all" onChange="$('.checkbox_class').prop('checked', $(this).prop('checked'));" data-toggle="collapse" data-target="#collapseAllAccounts" aria-expanded="false" aria-controls="collapseAllAccounts"> <label for="select_all">Select All</label>
+                 <em> (or uncheck to select individual accounts)</em>
               </div>
             </div>
 
-            <div class="row collapse in" id="collapseAllAccounts">
+            <div class="row collapse" id="collapseAllAccounts">
               <div class="col-md-12 col-sm-12 col-xs-12" style="overflow:auto; max-height:250px">
                 @forelse($characters->chunk(6) as $c)
                   @foreach ($c as $u)
