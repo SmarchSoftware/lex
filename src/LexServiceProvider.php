@@ -26,7 +26,7 @@ class LexServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/Views' => base_path('resources/views/smarch/lex')
+            __DIR__.'/Views' => base_path('resources/views/vendor/lex')
         ], 'views');
         
         // migrations folder
